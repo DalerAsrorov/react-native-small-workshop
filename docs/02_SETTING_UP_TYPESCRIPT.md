@@ -106,7 +106,7 @@ import React from 'react';
 
 + const MyMessage = ({ text }: { name: string }): React.ReactElement<Element> => (
 +   <View>
-+     <Text>{ text }</Text>
++     <Text style={styles.text}>{ text }</Text>
 +   </View>
 + );
 
@@ -123,6 +123,31 @@ export default class App extends React.Component<Props> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
+  },
++  text: {
++     fontFamily: 'Chochin',
++     fontSize: 24,
++     fontWeight: 'bold',
++     color: 'red'
++  }
+-  welcome: {
+-    fontSize: 20,
+-    textAlign: 'center',
+-    margin: 10
+-  },
+-  instructions: {
+-    textAlign: 'center',
+-    color: '#333333',
+-    marginBottom: 5
+-  }
+});
 ```
 
 We removed `MyMessage` a component that contains `text` property and renders the passed in text.
