@@ -19,7 +19,7 @@ touch rn-cli.config.js
 
 The tsconfig.json file contains all the settings for the TypeScript compile. The defaults created by the command above are mostly fine, but open the file and uncomment the following line:
 
-```json
+```js
 {
   ...
   // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
