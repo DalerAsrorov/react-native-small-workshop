@@ -32,11 +32,11 @@ To run the app in the simulator, you need Xcode. You can download it from [Mac A
 
 ## Running workshop
 
-1. Fork the repository https://github.com/DalerAsrorov/react-native-small-workshop
-2. `git clone https://github.com/[your username]/react-native-small-workshop.git`
+1. Fork the repository: https://github.com/DalerAsrorov/react-native-small-workshop
+2. Clone your fork: `git clone https://github.com/[your username]/react-native-small-workshop.git`
 3. `cd react-native-small-workshop`
-4. `react-native init workshop` - creates a react native app inside of the repository.
-5. `cd workshop`
+4. Create react native app, you can name it anything, I went with just *workshop*: `react-native init workshop`
+5. `cd workshop` (or the name of your app)
 6. `react-native run-ios` - this may take a little while. Do whatever.
 7. After build is successfully finished, the simulator with a sample app should appear.
 
