@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-We removed `MyMessage` a component that contains `text` property and renders the passed in text.
+We added a `MyMessage` component that has `text` prop through which it renders the given text.
 
 ## Running Typescript with new component
 
@@ -159,3 +159,5 @@ yarn ios:clean
 ```
 
 :warning: **Note:** you may not need to run `yarn ios:clean` that often (or at all). It's still safe to have this command handy when issues show up and they do show up quite often from my experience. Sorry to tell you.
+
+![Screenshot of the sample app in iOS](img/02_sample_app_typescript.png 'Sample app screenshot')
