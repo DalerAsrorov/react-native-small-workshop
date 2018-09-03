@@ -40,4 +40,4 @@ To run the app in the simulator, you need Xcode. You can download it from [Mac A
 6. `react-native run-ios` - this may take a little while. Do whatever.
 7. After build is successfully finished, the simulator with a sample app should appear.
 
-![Screenshot of the sample app in iOS](/docs/img/sample_app_screenshot.png "Sample app screenshot")
+![Screenshot of the sample app in iOS](img/sample_app_screenshot.png "Sample app screenshot")
