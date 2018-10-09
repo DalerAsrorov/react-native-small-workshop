@@ -1,15 +1,23 @@
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { PRIMARY_COLOR } from '../colors';
+import { SECONDARY_COLOR } from '../colors';
 
-export default class Login extends React.PureComponent {
-  private handleUsernameInput = (username: string) => {
-    console.log({ username });
+interface LoginProps {
+  username: string;
+  onSetUsername: (usernameInput: string) => any;
+  onLogin: () => any;
+}
+
+export default class Login extends React.PureComponent<LoginProps, {}> {
+  private handleUsernameInput = (usernameInput: string) => {
+    const { onSetUsername } = this.props;
+
+    onSetUsername(usernameInput);
   };
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <TextInput
           autoCapitalize="none"
           autoCorrect={false}
@@ -22,6 +30,12 @@ export default class Login extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: SECONDARY_COLOR
+  },
   usernameInput: {
     fontSize: 20,
     borderBottomWidth: 1,
