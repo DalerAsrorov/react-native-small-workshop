@@ -5,12 +5,16 @@ import { Provider } from 'react-redux';
 import { createStackNavigator } from 'react-navigation';
 import rootReducer from './reducers';
 import ConnectedLogin from './containers/ConnectedLogin';
+import ConnectedChatRoomsFeed from './containers/ConnectedChatRoomsFeed';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const StackNavigator = createStackNavigator({
   Login: {
     screen: ConnectedLogin
+  },
+  ChatRoomsFeed: {
+    screen: ConnectedChatRoomsFeed
   }
 });
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Login from '../components/Login';
-import { setUserLoggedIn, setUsername } from '../actions';
+import { createNewChatroom } from '../actions';
+import ChatRoomsFeed from '../components/ChatRoomsFeed';
 
 const mapStateToProps = (state: AppState) => ({
   isLoggedIn: state.user.isLoggedIn,
@@ -8,15 +8,12 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  onLogin() {
-    dispatch(setUserLoggedIn());
-  },
-  onSetUsername(usernameInput: string) {
-    dispatch(setUsername(usernameInput));
+  onCreateChatRoom(newChatRoom: ChatRoomProps) {
+    dispatch(createNewChatroom(newChatRoom));
   }
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(ChatRoomsFeed);

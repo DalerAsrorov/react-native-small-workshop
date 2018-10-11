@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "ios": "react-native run-ios",
-    "ios:clean": "rm -rf ios/build/; yarn ios"
+    "ios:clean": "rm -rf ios/build/; yarn ios",
+    "ios:new": "rm -rf node_modules; yarn; yarn ios:clean"
   },
   "dependencies": {
     "react": "16.4.1",
