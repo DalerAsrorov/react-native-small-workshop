@@ -20,8 +20,7 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
   roomRef
     .set({
       owner,
-      themeColor,
-      created: Date.now()
+      themeColor
     })
     .then(() => {
       response.status(201).send({ success: true });
