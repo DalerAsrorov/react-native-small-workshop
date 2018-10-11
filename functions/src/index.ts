@@ -23,8 +23,8 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
       themeColor,
       created: Date.now()
     })
-    .then(snapshot => {
-      response.status(201).send(snapshot);
+    .then(() => {
+      response.status(201).send({ success: true });
     })
     .catch(error => {
       response.status(500).send(error);

@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { SECONDARY_COLOR } from '../colors';
+import { Button, TextInput, View, StyleSheet } from 'react-native';
+import { SECONDARY_COLOR, PRIMARY_COLOR } from '../colors';
 
 interface LoginProps {
   username: string;
   onSetUsername: (usernameInput: string) => any;
   onLogin: () => any;
+  navigation: { replace: (path: string) => void };
 }
 
 export default class Login extends React.PureComponent<LoginProps, {}> {
@@ -13,6 +14,13 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
     const { onSetUsername } = this.props;
 
     onSetUsername(usernameInput);
+  };
+
+  private handleLogin = () => {
+    const { onLogin, navigation } = this.props;
+
+    onLogin();
+    navigation.replace('ChatRoomsFeed');
   };
 
   render() {
@@ -23,6 +31,12 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
           autoCorrect={false}
           style={styles.usernameInput}
           onChangeText={this.handleUsernameInput}
+        />
+        <Button
+          onPress={this.handleLogin}
+          title="Login"
+          color={PRIMARY_COLOR}
+          accessibilityLabel="Login to chatroom application with the provided username"
         />
       </View>
     );
