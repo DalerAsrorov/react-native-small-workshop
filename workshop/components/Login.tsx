@@ -6,7 +6,7 @@ interface LoginProps {
   username: string;
   onSetUsername: (usernameInput: string) => any;
   onLogin: () => any;
-  navigation: { replace: (path: string) => void };
+  navigation: { navigate: (path: string) => void };
 }
 
 export default class Login extends React.PureComponent<LoginProps, {}> {
@@ -20,7 +20,7 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
     const { onLogin, navigation } = this.props;
 
     onLogin();
-    navigation.replace('ChatRoomsFeed');
+    navigation.navigate('MainMenu');
   };
 
   render() {
