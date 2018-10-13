@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, View, StyleSheet } from 'react-native';
-import { SECONDARY_COLOR, PRIMARY_COLOR } from '../colors';
-import { CustomInput } from './CustomInputs';
+import { View, StyleSheet } from 'react-native';
+import { SECONDARY_COLOR } from '../colors';
+import { CustomInput, CustomButton } from './CustomInputs';
 
 interface LoginProps {
   username: string;
@@ -33,10 +33,10 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
           placeholder="Username"
           onChangeText={this.handleUsernameInput}
         />
-        <Button
+        <CustomButton
           onPress={this.handleLogin}
           title="Login"
-          color={PRIMARY_COLOR}
+          color="primary"
           accessibilityLabel="Login to chatroom application with the provided username"
         />
       </View>

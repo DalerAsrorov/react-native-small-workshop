@@ -33,7 +33,6 @@ const RootStackNavigator = createStackNavigator(
   },
   {
     initialRouteName: 'Login',
-    headerMode: 'none',
     mode: 'modal'
   }
 );
