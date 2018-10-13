@@ -8,9 +8,9 @@ interface ColorMapInterface {
   [key: string]: string;
 }
 
-const ColorMap: ColorMapInterface = {
+const colorMap: ColorMapInterface = {
   [PRIMARY_COLOR_NAME]: PRIMARY_COLOR,
   [SECONDARY_COLOR_NAME]: SECONDARY_COLOR
 };
 
-export default ColorMap;
+export default colorMap;

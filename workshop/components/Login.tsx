@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, TextInput, View, StyleSheet } from 'react-native';
-import { SECONDARY_COLOR, PRIMARY_COLOR } from '../colors';
+import { View, StyleSheet } from 'react-native';
+import { SECONDARY_COLOR } from '../colors';
+import { CustomInput, CustomButton } from './CustomInputs';
 
 interface LoginProps {
   username: string;
@@ -20,22 +21,22 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
     const { onLogin, navigation } = this.props;
 
     onLogin();
-    navigation.replace('ChatRoomsFeed');
+    navigation.replace('MainMenu');
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
+        <CustomInput
           autoCapitalize="none"
           autoCorrect={false}
-          style={styles.usernameInput}
+          placeholder="Username"
           onChangeText={this.handleUsernameInput}
         />
-        <Button
+        <CustomButton
           onPress={this.handleLogin}
           title="Login"
-          color={PRIMARY_COLOR}
+          color="primary"
           accessibilityLabel="Login to chatroom application with the provided username"
         />
       </View>
@@ -49,12 +50,5 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     backgroundColor: SECONDARY_COLOR
-  },
-  usernameInput: {
-    fontSize: 20,
-    borderBottomWidth: 1,
-    paddingVertical: 4,
-    marginVertical: 8,
-    textAlign: 'center'
   }
 });
