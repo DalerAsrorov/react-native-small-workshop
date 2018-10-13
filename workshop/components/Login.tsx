@@ -1,12 +1,13 @@
 import React from 'react';
-import { Button, TextInput, View, StyleSheet } from 'react-native';
+import { Button, View, StyleSheet } from 'react-native';
 import { SECONDARY_COLOR, PRIMARY_COLOR } from '../colors';
+import { CustomInput } from './CustomInputs';
 
 interface LoginProps {
   username: string;
   onSetUsername: (usernameInput: string) => any;
   onLogin: () => any;
-  navigation: { navigate: (path: string) => void };
+  navigation: { replace: (path: string) => void };
 }
 
 export default class Login extends React.PureComponent<LoginProps, {}> {
@@ -20,16 +21,15 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
     const { onLogin, navigation } = this.props;
 
     onLogin();
-    navigation.navigate('MainMenu');
+    navigation.replace('MainMenu');
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <TextInput
+        <CustomInput
           autoCapitalize="none"
           autoCorrect={false}
-          style={styles.usernameInput}
           onChangeText={this.handleUsernameInput}
         />
         <Button
@@ -49,12 +49,5 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     backgroundColor: SECONDARY_COLOR
-  },
-  usernameInput: {
-    fontSize: 20,
-    borderBottomWidth: 1,
-    paddingVertical: 4,
-    marginVertical: 8,
-    textAlign: 'center'
   }
 });

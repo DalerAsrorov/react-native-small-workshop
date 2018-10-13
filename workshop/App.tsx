@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import {
-  createSwitchNavigator,
+  createStackNavigator,
   createMaterialTopTabNavigator
 } from 'react-navigation';
 import rootReducer from './reducers';
@@ -18,7 +18,7 @@ const MaterialTopNavigator = createMaterialTopTabNavigator({
   }
 });
 
-const StackNavigator = createSwitchNavigator(
+const StackNavigator = createStackNavigator(
   {
     Login: {
       screen: ConnectedLogin
@@ -28,7 +28,9 @@ const StackNavigator = createSwitchNavigator(
     }
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Login',
+    headerMode: 'none',
+    mode: 'modal'
   }
 );
 
