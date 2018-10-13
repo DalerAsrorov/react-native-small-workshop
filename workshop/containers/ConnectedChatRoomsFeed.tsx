@@ -7,11 +7,7 @@ const mapStateToProps = (state: AppState) => ({
   username: state.user.username
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  onCreateChatRoom(newChatRoom: ChatRoomProps) {
-    dispatch(createNewChatroom(newChatRoom));
-  }
-});
+const mapDispatchToProps = (dispatch: any) => ({});
 
 export default connect(
   mapStateToProps,
