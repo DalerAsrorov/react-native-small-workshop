@@ -17,3 +17,6 @@ interface ChatRoomProps {
   owner: User['username'];
   themeColor: string;
 }
+
+// 3rd party libraries that don't have integrated Typescript types
+declare module 'react-native-color-picker';

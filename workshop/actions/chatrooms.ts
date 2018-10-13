@@ -12,7 +12,7 @@ export const createNewChatroom = ({ id, owner, themeColor }: ChatRoomProps) => (
   dispatch(requestCreateNewChatRoom());
 
   createChatRoom({ id, owner, themeColor }).then(snapshot => {
-    // add the new chatroom with existing props to the queue
+    // TODO: add the new chatroom with existing props to the queue
     // of myChatRooms
     console.log({ id, owner, themeColor });
     dispatch(requestCreateNewChatRoom(false));

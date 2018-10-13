@@ -7,7 +7,7 @@ import {
   createMaterialTopTabNavigator
 } from 'react-navigation';
 import rootReducer from './reducers';
-import CreateModalScreen from './components/CreateRoomModalScreen';
+import ConnectedCreateRoomModalScreen from './containers/ConnectedCreateRoomModal';
 import ConnectedLogin from './containers/ConnectedLogin';
 import ConnectedChatRoomsFeed from './containers/ConnectedChatRoomsFeed';
 
@@ -28,7 +28,7 @@ const RootStackNavigator = createStackNavigator(
       screen: MaterialTopNavigator
     },
     CreateRoomModal: {
-      screen: CreateModalScreen
+      screen: ConnectedCreateRoomModalScreen
     }
   },
   {
