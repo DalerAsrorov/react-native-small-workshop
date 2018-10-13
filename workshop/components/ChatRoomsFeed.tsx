@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
-import { SECONDARY_COLOR } from '../colors';
+import { StyleSheet, TextInput, View, Text, Button } from 'react-native';
+import { NavigationParams } from 'react-navigation';
+import { SECONDARY_COLOR, PRIMARY_COLOR } from '../colors';
 
 interface ChatRoomsFeedProps {
   username: string;
   onCreateChatRoom: (chatroom: ChatRoomProps) => any;
+  navigation: NavigationParams;
 }
 
 export default class ChatRoomsFeed extends React.PureComponent<
@@ -24,7 +26,16 @@ export default class ChatRoomsFeed extends React.PureComponent<
   };
 
   render() {
-    return <View style={styles.container} />;
+    const { navigation } = this.props;
+
+    return (
+      <View style={styles.container}>
+        <Button
+          onPress={() => navigation.navigate('CreateRoomModal')}
+          title="Create"
+        />
+      </View>
+    );
   }
 }
 

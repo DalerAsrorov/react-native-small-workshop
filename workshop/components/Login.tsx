@@ -30,6 +30,7 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
         <CustomInput
           autoCapitalize="none"
           autoCorrect={false}
+          placeholder="Username"
           onChangeText={this.handleUsernameInput}
         />
         <Button

@@ -11,7 +11,7 @@ export default class CreateRoomModalScreen extends React.Component<
   render() {
     return (
       <View style={styles.container}>
-        <CustomInput />
+        <CustomInput placeholder="New Chatroom Name" />
       </View>
     );
   }
@@ -20,7 +20,7 @@ export default class CreateRoomModalScreen extends React.Component<
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    margin: 20
   }
 });
