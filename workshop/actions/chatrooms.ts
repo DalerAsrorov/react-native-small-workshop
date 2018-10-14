@@ -6,15 +6,19 @@ export const requestCreateNewChatRoom = (shouldCreate: boolean = true) => ({
   payload: shouldCreate
 });
 
+export const ADD_MY_NEW_CHATROOM_TO_QUEUE = 'ADD_MY_NEW_CHATROOM_TO_QUEUE';
+export const addMyNewChatroomToQueue = (chatroom: ChatRoomProps) => ({
+  type: ADD_MY_NEW_CHATROOM_TO_QUEUE,
+  payload: chatroom
+});
+
 export const createNewChatroom = ({ id, owner, themeColor }: ChatRoomProps) => (
   dispatch: any
 ) => {
   dispatch(requestCreateNewChatRoom());
 
   createChatRoom({ id, owner, themeColor }).then(snapshot => {
-    // TODO: add the new chatroom with existing props to the queue
-    // of myChatRooms
-    console.log({ id, owner, themeColor });
+    dispatch(addMyNewChatroomToQueue({ id, owner, themeColor }));
     dispatch(requestCreateNewChatRoom(false));
   });
 };

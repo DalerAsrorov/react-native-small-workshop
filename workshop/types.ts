@@ -10,6 +10,7 @@ interface ChatRoomsState {
 
 interface AppState {
   user: User;
+  chatrooms: ChatRoomsState;
 }
 
 interface ChatRoomProps {

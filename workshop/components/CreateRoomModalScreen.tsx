@@ -6,7 +6,11 @@ import { PRIMARY_COLOR } from '../colors';
 
 interface CreateRoomModalScreenProps {
   username: string;
+  myChatRooms: Array<ChatRoomProps>;
   onCreateChatRoom: (chatRoom: ChatRoomProps) => void;
+  navigation: {
+    goBack: () => void;
+  };
 }
 
 interface CreateRoomModalScreenState {
@@ -47,6 +51,15 @@ export default class CreateRoomModalScreen extends React.Component<
       });
     }
   };
+
+  componentWillReceiveProps(
+    nextProps: CreateRoomModalScreenProps,
+    prevState: CreateRoomModalScreenState
+  ) {
+    if (this.props.myChatRooms.length < nextProps.myChatRooms.length) {
+      this.props.navigation.goBack();
+    }
+  }
 
   render() {
     return (

@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import { StyleSheet, FlatList, View, Button } from 'react-native';
 import { NavigationParams } from 'react-navigation';
 import { SECONDARY_COLOR } from '../colors';
 
 interface ChatRoomsFeedProps {
   username: string;
   navigation: NavigationParams;
+  myChatRooms: Array<ChatRoomProps>;
 }
 
 export default class ChatRoomsFeed extends React.PureComponent<
@@ -13,7 +14,7 @@ export default class ChatRoomsFeed extends React.PureComponent<
   {}
 > {
   render() {
-    const { navigation } = this.props;
+    const { navigation, myChatRooms } = this.props;
 
     return (
       <View style={styles.container}>
