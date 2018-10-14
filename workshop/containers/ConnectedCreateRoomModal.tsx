@@ -3,6 +3,7 @@ import { createNewChatroom } from '../actions';
 import CreateRoomModalScreen from '../components/CreateRoomModalScreen';
 
 const mapStateToProps = (state: AppState) => ({
+  myChatRooms: state.chatrooms.myChatRooms,
   username: state.user.username
 });
 
