@@ -45,7 +45,7 @@ export default class CreateRoomModalScreen extends React.Component<
 
     if (newRoomName.trim().length > 1) {
       onCreateChatRoom({
-        id: newRoomName,
+        name: newRoomName,
         owner: username,
         themeColor
       });
