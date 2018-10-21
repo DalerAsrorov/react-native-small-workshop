@@ -15,12 +15,12 @@ const stringifyJson = JSON.stringify;
 export const createChatRoom = ({
   owner,
   themeColor,
-  id
+  name
 }: ChatRoomProps): Promise<{ success: boolean }> => {
   return fetch(`${REQUEST_BASE}/createChatRoom`, {
     method: 'post',
     body: stringifyJson({
-      id,
+      name,
       owner,
       themeColor
     }),

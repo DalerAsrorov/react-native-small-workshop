@@ -9,21 +9,42 @@ admin.initializeApp();
  */
 export const createChatRoom = functions.https.onRequest((request, response) => {
   const {
-    body: { id: roomId, owner, themeColor }
+    body: { name, owner, themeColor }
   } = request;
 
-  const roomRef = admin
-    .firestore()
-    .collection('rooms')
-    .doc(roomId);
+  const roomRef = admin.firestore().collection('rooms');
 
   roomRef
-    .set({
+    .add({
+      name,
       owner,
       themeColor
     })
     .then(() => {
       response.status(201).send({ success: true });
+    })
+    .catch(error => {
+      response.status(500).send(error);
+    });
+});
+
+/**
+ * Retrieve chatrooms from the Firestore
+ */
+export const getChatRooms = functions.https.onRequest((request, response) => {
+  const rooms = admin
+    .firestore()
+    .collection('rooms')
+    .get();
+
+  rooms
+    .then(querySnapshot => {
+      const roomsData = querySnapshot.docs.map(docSnapshot => ({
+        id: docSnapshot.id,
+        ...docSnapshot.data()
+      }));
+
+      response.status(201).send(roomsData);
     })
     .catch(error => {
       response.status(500).send(error);

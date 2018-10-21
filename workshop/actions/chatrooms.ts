@@ -12,13 +12,15 @@ export const addMyNewChatroomToQueue = (chatroom: ChatRoomProps) => ({
   payload: chatroom
 });
 
-export const createNewChatroom = ({ id, owner, themeColor }: ChatRoomProps) => (
-  dispatch: any
-) => {
+export const createNewChatroom = ({
+  name,
+  owner,
+  themeColor
+}: ChatRoomProps) => (dispatch: any) => {
   dispatch(requestCreateNewChatRoom());
 
-  createChatRoom({ id, owner, themeColor }).then(snapshot => {
-    dispatch(addMyNewChatroomToQueue({ id, owner, themeColor }));
+  createChatRoom({ name, owner, themeColor }).then(snapshot => {
+    dispatch(addMyNewChatroomToQueue({ name, owner, themeColor }));
     dispatch(requestCreateNewChatRoom(false));
   });
 };
