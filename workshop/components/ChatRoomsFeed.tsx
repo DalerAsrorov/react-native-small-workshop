@@ -13,15 +13,28 @@ import { SECONDARY_COLOR } from '../colors';
 interface ChatRoomsFeedProps {
   username: string;
   navigation: NavigationParams;
-  myChatRooms: Array<ChatRoomProps>;
+  chatrooms: Array<ChatRoomProps>;
+  onFetchAllChatRooms: () => void;
 }
+
+const ChatFeedList = (chatrooms: Array<ChatRoomProps>) => {
+  console.log({ chatrooms });
+};
 
 export default class ChatRoomsFeed extends React.PureComponent<
   ChatRoomsFeedProps,
   {}
 > {
+  componentDidMount() {
+    const { onFetchAllChatRooms } = this.props;
+
+    onFetchAllChatRooms();
+  }
+
   render() {
-    const { navigation, myChatRooms } = this.props;
+    const { navigation, chatrooms } = this.props;
+
+    console.log({ chatrooms });
 
     return (
       <View style={styles.container}>

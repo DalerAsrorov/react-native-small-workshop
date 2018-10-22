@@ -6,7 +6,7 @@ import { PRIMARY_COLOR } from '../colors';
 
 interface CreateRoomModalScreenProps {
   username: string;
-  myChatRooms: Array<ChatRoomProps>;
+  chatrooms: Array<ChatRoomProps>;
   onCreateChatRoom: (chatRoom: ChatRoomProps) => void;
   navigation: {
     goBack: () => void;
@@ -56,7 +56,7 @@ export default class CreateRoomModalScreen extends React.Component<
     nextProps: CreateRoomModalScreenProps,
     prevState: CreateRoomModalScreenState
   ) {
-    if (this.props.myChatRooms.length < nextProps.myChatRooms.length) {
+    if (this.props.chatrooms.length < nextProps.chatrooms.length) {
       this.props.navigation.goBack();
     }
   }

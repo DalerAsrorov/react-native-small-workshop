@@ -4,7 +4,7 @@ interface User {
 }
 
 interface ChatRoomsState {
-  myChatRooms: Array<ChatRoomProps>;
+  chatrooms: Array<ChatRoomProps>;
   isCreatingChatRoom: boolean;
 }
 
