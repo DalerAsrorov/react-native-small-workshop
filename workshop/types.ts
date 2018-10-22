@@ -6,6 +6,7 @@ interface User {
 interface ChatRoomsState {
   chatrooms: Array<ChatRoomProps>;
   isCreatingChatRoom: boolean;
+  hasReceivedChatRooms: boolean;
 }
 
 interface AppState {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, FlatList, View, Button } from 'react-native';
-import { List, ListItem, ListItemProps } from 'react-native-elements';
+import { StyleSheet, FlatList, View, Button, Text } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { SECONDARY_COLOR } from '../colors';
 
@@ -14,17 +14,43 @@ interface ChatRoomsFeedProps {
   username: string;
   navigation: NavigationParams;
   chatrooms: Array<ChatRoomProps>;
+  hasReceivedChatRooms: boolean;
   onFetchAllChatRooms: () => void;
 }
 
-const ChatFeedList = (chatrooms: Array<ChatRoomProps>) => {
-  console.log({ chatrooms });
+const ChatFeedList = ({
+  isShown,
+  chatrooms
+}: {
+  isShown: boolean;
+  chatrooms: Array<ChatRoomProps>;
+}) => {
+  let chatroomsList = null;
+
+  if (isShown) {
+    chatroomsList = (
+      <FlatList
+        data={chatrooms}
+        renderItem={({ item: chatroom }: { item: ChatRoomProps }) => {
+          return <ListItem title={chatroom.name} subtitle={chatroom.owner} />;
+        }}
+      />
+    );
+  }
+
+  return chatroomsList;
 };
 
 export default class ChatRoomsFeed extends React.PureComponent<
   ChatRoomsFeedProps,
   {}
 > {
+  private handleNavigateToCreateModal = () => {
+    const { navigation } = this.props;
+
+    navigation.navigate('CreateRoomModal');
+  };
+
   componentDidMount() {
     const { onFetchAllChatRooms } = this.props;
 
@@ -32,16 +58,14 @@ export default class ChatRoomsFeed extends React.PureComponent<
   }
 
   render() {
-    const { navigation, chatrooms } = this.props;
-
-    console.log({ chatrooms });
+    const { chatrooms, hasReceivedChatRooms } = this.props;
+    const shouldShowChatRooms =
+      chatrooms && chatrooms.length > 0 && hasReceivedChatRooms;
 
     return (
       <View style={styles.container}>
-        <Button
-          onPress={() => navigation.navigate('CreateRoomModal')}
-          title="Create"
-        />
+        <Button onPress={this.handleNavigateToCreateModal} title="Create" />
+        <ChatFeedList isShown={shouldShowChatRooms} chatrooms={chatrooms} />
       </View>
     );
   }

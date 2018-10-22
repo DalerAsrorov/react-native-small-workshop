@@ -6,7 +6,8 @@ import {
 
 const DEFAULT_USER_STATE: ChatRoomsState = {
   chatrooms: [],
-  isCreatingChatRoom: false
+  isCreatingChatRoom: false,
+  hasReceivedChatRooms: false
 };
 
 const chatrooms = (state = DEFAULT_USER_STATE, action: any) => {
@@ -24,7 +25,8 @@ const chatrooms = (state = DEFAULT_USER_STATE, action: any) => {
     case RECEIVE_ALL_CHATROOMS:
       return {
         ...state,
-        chatrooms: action.payload
+        chatrooms: action.payload,
+        hasReceivedChatRooms: true
       };
     default:
       return state;
