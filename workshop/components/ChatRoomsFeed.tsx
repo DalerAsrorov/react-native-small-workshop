@@ -4,11 +4,6 @@ import { ListItem } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { SECONDARY_COLOR } from '../colors';
 
-/**
- * TODO: Use List and ListItem components along
- * with FlatList to create the list of chatrooms
- * https://github.com/DalerAsrorov/react-native-small-workshop/issues/9
- */
 
 interface ChatRoomsFeedProps {
   username: string;
