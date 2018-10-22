@@ -30,3 +30,12 @@ export const createChatRoom = ({
     .then(({ success }) => success)
     .catch(error => console.log('Error creating chat room', error));
 };
+
+export const getAllChatRooms = (): Promise<Array<ChatRoomProps>> => {
+  return fetch(`${REQUEST_BASE}/getChatRooms`, {
+    method: 'get',
+    ...REQUEST_DEF_PARAMS
+  })
+    .then(response => response.json())
+    .catch(error => console.log('Error creating chat room', error));
+};
