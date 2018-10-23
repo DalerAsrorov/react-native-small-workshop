@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, View, Button, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
-import { SECONDARY_COLOR } from '../colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 
 interface ChatRoomsFeedProps {
   username: string;
@@ -69,14 +69,27 @@ export default class ChatRoomsFeed extends React.PureComponent<
 
     return (
       <View style={styles.container}>
-        <Button onPress={this.handleNavigateToCreateModal} title="Create" />
         <ChatFeedList isShown={shouldShowChatRooms} chatrooms={chatrooms} />
+        <Icon
+          size={30}
+          onPress={this.handleNavigateToCreateModal}
+          containerStyle={styles.addIconStyle}
+          color={PRIMARY_COLOR}
+          name="add"
+          raised
+          reverse
+        />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  addIconStyle: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
