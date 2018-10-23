@@ -15,6 +15,7 @@ interface AppState {
 }
 
 interface ChatRoomProps {
+  id: string;
   name: string;
   owner: User['username'];
   themeColor: string;
