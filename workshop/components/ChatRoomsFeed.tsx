@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, FlatList, View, Button, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { SECONDARY_COLOR } from '../colors';
-
 
 interface ChatRoomsFeedProps {
   username: string;
@@ -26,9 +26,19 @@ const ChatFeedList = ({
     chatroomsList = (
       <FlatList
         data={chatrooms}
-        renderItem={({ item: chatroom }: { item: ChatRoomProps }) => {
-          return <ListItem title={chatroom.name} subtitle={chatroom.owner} />;
-        }}
+        renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
+          <ListItem
+            title={chatroom.name}
+            subtitle={`Created by ${chatroom.owner}`}
+            leftIcon={
+              <Icon
+                containerStyle={styles.iconContainerStyle}
+                name="chat"
+                color={chatroom.themeColor}
+              />
+            }
+          />
+        )}
       />
     );
   }
@@ -72,5 +82,8 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     backgroundColor: SECONDARY_COLOR
+  },
+  iconContainerStyle: {
+    paddingRight: 10
   }
 });
