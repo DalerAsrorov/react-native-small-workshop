@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, FlatList, View, Button, Text } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  NativeSyntheticEvent,
+  NativeTouchEvent
+} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
@@ -14,11 +20,13 @@ interface ChatRoomsFeedProps {
 }
 
 const ChatFeedList = ({
+  onChatRoomClick,
   isShown,
   chatrooms
 }: {
   isShown: boolean;
   chatrooms: Array<ChatRoomProps>;
+  onChatRoomClick: (chatroom: ChatRoomProps['id']) => void;
 }) => {
   let chatroomsList = null;
 
@@ -28,6 +36,7 @@ const ChatFeedList = ({
         data={chatrooms}
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
           <ListItem
+            onPress={() => onChatRoomClick(chatroom.id)}
             title={chatroom.name}
             subtitle={`Created by ${chatroom.owner}`}
             leftIcon={
@@ -50,6 +59,12 @@ export default class ChatRoomsFeed extends React.PureComponent<
   ChatRoomsFeedProps,
   {}
 > {
+  private handleChatRoomClick = (chatRoomId: ChatRoomProps['id']) => {
+    const { navigate } = this.props.navigation;
+
+    navigate('ChatRoomPage', { chatRoomId });
+  };
+
   private handleNavigateToCreateModal = () => {
     const { navigation } = this.props;
 
@@ -69,7 +84,11 @@ export default class ChatRoomsFeed extends React.PureComponent<
 
     return (
       <View style={styles.container}>
-        <ChatFeedList isShown={shouldShowChatRooms} chatrooms={chatrooms} />
+        <ChatFeedList
+          onChatRoomClick={this.handleChatRoomClick}
+          isShown={shouldShowChatRooms}
+          chatrooms={chatrooms}
+        />
         <Icon
           size={30}
           onPress={this.handleNavigateToCreateModal}

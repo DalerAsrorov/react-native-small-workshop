@@ -10,6 +10,7 @@ import rootReducer from './reducers';
 import ConnectedCreateRoomModalScreen from './containers/ConnectedCreateRoomModal';
 import ConnectedLogin from './containers/ConnectedLogin';
 import ConnectedChatRoomsFeed from './containers/ConnectedChatRoomsFeed';
+import ConnectedChatRoomPage from './containers/ConnectedChatRoomPage';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -23,6 +24,9 @@ const RootStackNavigator = createStackNavigator(
   {
     Login: {
       screen: ConnectedLogin
+    },
+    ChatRoomPage: {
+      screen: ConnectedChatRoomPage
     },
     MainMenu: {
       screen: MaterialTopNavigator
