@@ -8,6 +8,7 @@ interface ChatRoomsState {
   isCreatingChatRoom: boolean;
   hasReceivedChatRooms: boolean;
   isSavingNewMessage: boolean;
+  messages: Array<MessagePayload>;
 }
 
 interface AppState {

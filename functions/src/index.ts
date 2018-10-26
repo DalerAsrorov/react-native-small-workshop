@@ -2,7 +2,10 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 // initialize admin
-admin.initializeApp();
+admin.initializeApp(functions.config().firebase);
+
+const db = admin.firestore();
+db.settings({ timestampsInSnapshots: true });
 
 /**
  * A Firestore HTTP function to create a new chatroom
@@ -12,7 +15,7 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
     body: { name, owner, themeColor }
   } = request;
 
-  const roomRef = admin.firestore().collection('rooms');
+  const roomRef = db.collection('rooms');
 
   roomRef
     .add({
@@ -37,8 +40,7 @@ export const addMessageToChatRoom = functions.https.onRequest(
       body: { roomId, from, messageText }
     } = request;
 
-    const roomMessagesRef = admin
-      .firestore()
+    const roomMessagesRef = db
       .collection('rooms')
       .doc(roomId)
       .collection('messages');
@@ -61,10 +63,7 @@ export const addMessageToChatRoom = functions.https.onRequest(
  * Retrieve chatrooms from the Firestore
  */
 export const getChatRooms = functions.https.onRequest((request, response) => {
-  const rooms = admin
-    .firestore()
-    .collection('rooms')
-    .get();
+  const rooms = db.collection('rooms').get();
 
   rooms
     .then(querySnapshot => {
@@ -79,3 +78,33 @@ export const getChatRooms = functions.https.onRequest((request, response) => {
       response.status(500).send(error);
     });
 });
+
+/**
+ * Retreuve all the messages from the current chatroom
+ */
+export const getChatRoomMessages = functions.https.onRequest(
+  (request, response) => {
+    const {
+      body: { roomId }
+    } = request;
+
+    const chatRoomMessages = db
+      .collection('rooms')
+      .doc(roomId)
+      .collection('messages')
+      .get();
+
+    chatRoomMessages
+      .then(querySnapshot => {
+        const messages = querySnapshot.docs.map(messageSnapshot => ({
+          id: messageSnapshot.id,
+          ...messageSnapshot.data()
+        }));
+
+        response.status(201).send(messages);
+      })
+      .catch(error => {
+        response.status(500).send(error);
+      });
+  }
+);

@@ -4,16 +4,15 @@ import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
-import {
-  CustomInput as TextArea,
-  CustomButton as Button
-} from './CustomInputs';
+import { CustomInput as TextArea } from './CustomInputs';
 
 interface ChatRoomPageProps {
   isSavingNewMessage: ChatRoomsState['isSavingNewMessage'];
   navigation: NavigationParams;
   username: User['username'];
+  messages: ChatRoomsState['messages'];
   onSaveNewMessage: (message: MessagePayload) => void;
+  onFetchChatRoomMessages: (roomId: MessagePayload['roomId']) => any;
 }
 
 interface ChatRoomPageState {
@@ -51,10 +50,14 @@ export default class ChatRoomPage extends React.PureComponent<
       messageText: currentMessage,
       roomId
     });
+
+    this.setState({
+      currentMessage: ''
+    });
   };
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, onFetchChatRoomMessages } = this.props;
     const {
       state: {
         params: { chatRoomId: roomId }
@@ -64,28 +67,32 @@ export default class ChatRoomPage extends React.PureComponent<
     this.setState({
       roomId
     });
-    // TODO: Use chatroomId param from navigation state to fetch
-    // all the messages of this chat room
 
-    console.log({ roomId });
+    onFetchChatRoomMessages(roomId);
   }
 
   render() {
+    const { messages } = this.props;
+
+    console.log({ messages });
+
     return (
       <View style={styles.container}>
         <TextArea
+          value={this.state.currentMessage}
           style={styles.messageInput}
           multiline={true}
           numberOfLines={MAX_NUMBER_OF_LINES}
           onChangeText={this.handleMessageInput}
         />
-        <View style={styles.sendButtonWrapepr}>
-          <Button
-            title="Send"
-            color="primary"
-            onPress={this.handleSaveMessage}
-          />
-        </View>
+        <Icon
+          onPress={this.handleSaveMessage}
+          containerStyle={styles.sendButtonWrapepr}
+          color={PRIMARY_COLOR}
+          name="message"
+          raised
+          reverse
+        />
       </View>
     );
   }
@@ -93,17 +100,13 @@ export default class ChatRoomPage extends React.PureComponent<
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
     margin: 0,
-    flexDirection: 'row'
+    paddingLeft: 10
   },
-  sendButtonWrapepr: {
-    borderWidth: 1,
-    borderColor: PRIMARY_COLOR,
-    flex: 1
-  },
+  sendButtonWrapepr: {},
   messageInput: {
     textAlign: 'left',
-    paddingHorizontal: 10,
-    flex: 3
+    flex: 4
   }
 });
