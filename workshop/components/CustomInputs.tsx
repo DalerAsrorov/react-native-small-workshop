@@ -6,20 +6,32 @@ import {
   TextInputProps,
   ButtonProps
 } from 'react-native';
-import colorMap, { SECONDARY_COLOR } from '../colors';
+import colorMap, { SECONDARY_COLOR_NAME, GREY_COLOR_NAME } from '../colors';
+
+interface CustomInputProps extends TextInputProps {
+  borderColor?: string;
+}
 
 export const CustomInput = ({
+  borderColor,
   style: propsStyle,
   ...restTextInputProps
-}: TextInputProps) => (
-  <TextInput style={[styles.input, propsStyle]} {...restTextInputProps} />
-);
+}: CustomInputProps) => {
+  const color = colorMap[borderColor || GREY_COLOR_NAME];
+
+  return (
+    <TextInput
+      style={[styles.input, propsStyle, { borderBottomColor: color }]}
+      {...restTextInputProps}
+    />
+  );
+};
 
 export const CustomButton = ({
   color: colorProp,
   ...restButtonProps
 }: ButtonProps) => {
-  const color = colorMap[colorProp || SECONDARY_COLOR];
+  const color = colorMap[colorProp || SECONDARY_COLOR_NAME];
 
   return <Button color={color} {...restButtonProps} />;
 };

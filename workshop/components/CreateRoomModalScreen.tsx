@@ -5,7 +5,7 @@ import { CustomInput, CustomButton } from './CustomInputs';
 import { PRIMARY_COLOR } from '../colors';
 
 interface CreateRoomModalScreenProps {
-  username: string;
+  username: User['username'];
   chatrooms: Array<ChatRoomProps>;
   onCreateChatRoom: (chatRoom: ChatRoomProps) => void;
   navigation: {
