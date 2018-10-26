@@ -21,6 +21,7 @@ interface ChatRoomPageState {
 }
 
 const MAX_NUMBER_OF_LINES = 4;
+const MESSAGES_POLLING_INTERVAL = 5000;
 
 const MessageList = ({ messages }: { messages: Array<MessagePayload> }) => {
   return (
@@ -44,6 +45,14 @@ export default class ChatRoomPage extends React.PureComponent<
   ChatRoomPageProps,
   ChatRoomPageState
 > {
+  private messagePollInterval: any;
+
+  constructor(props: ChatRoomPageProps) {
+    super(props);
+
+    this.messagePollInterval = React.createRef();
+  }
+
   state = {
     currentMessage: '',
     roomId: ''
@@ -74,8 +83,17 @@ export default class ChatRoomPage extends React.PureComponent<
     });
   };
 
+  private fetchChatRoomMessages = () => {
+    const { onFetchChatRoomMessages } = this.props;
+    const { roomId } = this.state;
+
+    if (roomId.length > 0) {
+      onFetchChatRoomMessages(roomId);
+    }
+  };
+
   componentDidMount() {
-    const { navigation, onFetchChatRoomMessages } = this.props;
+    const { navigation } = this.props;
     const {
       state: {
         params: { chatRoomId: roomId }
@@ -86,7 +104,15 @@ export default class ChatRoomPage extends React.PureComponent<
       roomId
     });
 
-    onFetchChatRoomMessages(roomId);
+    this.fetchChatRoomMessages();
+
+    this.messagePollInterval = setInterval(() => {
+      this.fetchChatRoomMessages();
+    }, MESSAGES_POLLING_INTERVAL);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.messagePollInterval);
   }
 
   render() {
@@ -121,7 +147,8 @@ export default class ChatRoomPage extends React.PureComponent<
 
 const styles = StyleSheet.create({
   messageText: {
-    fontSize: 16
+    fontSize: 16,
+    marginLeft: 10
   },
   messageTextContainer: {
     paddingVertical: 8
