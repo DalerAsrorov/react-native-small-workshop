@@ -62,4 +62,24 @@ exports.getChatRooms = functions.https.onRequest((request, response) => {
         response.status(500).send(error);
     });
 });
+/**
+ * Retreuve all the messages from the current chatroom
+ */
+exports.getChatRoomMessages = functions.https.onRequest((request, response) => {
+    const { body: { roomId } } = request;
+    const chatRoomMessages = admin
+        .firestore()
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages')
+        .get();
+    chatRoomMessages
+        .then(querySnapshot => {
+        const messages = querySnapshot.docs.map(messageSnapshot => (Object.assign({ id: messageSnapshot.id }, messageSnapshot.data())));
+        response.status(201).send(messages);
+    })
+        .catch(error => {
+        response.status(500).send(error);
+    });
+});
 //# sourceMappingURL=index.js.map

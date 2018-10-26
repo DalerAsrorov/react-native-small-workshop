@@ -1,6 +1,7 @@
 import {
   createChatRoom,
   getAllChatRooms,
+  fetchAllChatRoomMessages as fetchAllChatRoomMessagesApi,
   saveNewMessage as saveNewMessageApi
 } from '../api';
 
@@ -55,4 +56,22 @@ export const saveNewMessage = (messagePayload: MessagePayload) => (
   return saveNewMessageApi(messagePayload).then(() => {
     dispatch(requestSaveNewMessage(false));
   });
+};
+
+export const RECEIVE_ALL_CHATROOM_MESSAGES = 'RECEIVE_ALL_CHATROOM_MESSAGES';
+export const receiveAllChatroomMessages = (
+  messages: Array<MessagePayload>
+) => ({
+  type: RECEIVE_ALL_CHATROOM_MESSAGES,
+  payload: messages
+});
+
+export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
+  dispatch: any
+) => {
+  return fetchAllChatRoomMessagesApi(roomId).then(
+    (messages: Array<MessagePayload>) => {
+      dispatch(receiveAllChatroomMessages(messages));
+    }
+  );
 };

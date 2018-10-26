@@ -10,7 +10,9 @@ interface ChatRoomPageProps {
   isSavingNewMessage: ChatRoomsState['isSavingNewMessage'];
   navigation: NavigationParams;
   username: User['username'];
+  messages: ChatRoomsState['messages'];
   onSaveNewMessage: (message: MessagePayload) => void;
+  onFetchChatRoomMessages: (roomId: MessagePayload['roomId']) => any;
 }
 
 interface ChatRoomPageState {
@@ -55,7 +57,7 @@ export default class ChatRoomPage extends React.PureComponent<
   };
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, onFetchChatRoomMessages } = this.props;
     const {
       state: {
         params: { chatRoomId: roomId }
@@ -65,13 +67,13 @@ export default class ChatRoomPage extends React.PureComponent<
     this.setState({
       roomId
     });
-    // TODO: Use chatroomId param from navigation state to fetch
-    // all the messages of this chat room
 
-    console.log(`Current chatroom ID: ${roomId}`);
+    onFetchChatRoomMessages(roomId);
   }
 
   render() {
+    const { messages } = this.props;
+
     return (
       <View style={styles.container}>
         <TextArea

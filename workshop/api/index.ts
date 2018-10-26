@@ -60,3 +60,20 @@ export const getAllChatRooms = (): Promise<Array<ChatRoomProps>> => {
     .then(response => response.json())
     .catch(error => console.log('Error creating chat room', error));
 };
+
+export const fetchAllChatRoomMessages = (
+  roomId: ChatRoomProps['id']
+): Promise<Array<MessagePayload>> => {
+  return fetch(`${REQUEST_BASE}/getChatRoomMessages`, {
+    method: 'post',
+    body: stringifyJson({
+      roomId
+    }),
+    ...REQUEST_DEF_PARAMS
+  })
+    .then(response => response.json())
+    .then(({ success }) => success)
+    .catch(error =>
+      console.log(`Error adding a new message to chatroom ${roomId}:`, error)
+    );
+};
