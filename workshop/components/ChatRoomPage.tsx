@@ -77,36 +77,54 @@ export default class ChatRoomPage extends React.PureComponent<
     console.log({ messages });
 
     return (
-      <View style={styles.container}>
-        <TextArea
-          value={this.state.currentMessage}
-          style={styles.messageInput}
-          multiline={true}
-          numberOfLines={MAX_NUMBER_OF_LINES}
-          onChangeText={this.handleMessageInput}
-        />
-        <Icon
-          onPress={this.handleSaveMessage}
-          containerStyle={styles.sendButtonWrapepr}
-          color={PRIMARY_COLOR}
-          name="message"
-          raised
-          reverse
-        />
+      <View style={styles.pageContainer}>
+        <View style={styles.messageListContainer}>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+          <Text>Hello</Text>
+        </View>
+        <View style={styles.messageBoxContainer}>
+          <TextArea
+            placeholder="Type message..."
+            value={this.state.currentMessage}
+            style={styles.messageInput}
+            multiline={true}
+            numberOfLines={MAX_NUMBER_OF_LINES}
+            onChangeText={this.handleMessageInput}
+          />
+          <Icon
+            onPress={this.handleSaveMessage}
+            color={PRIMARY_COLOR}
+            name="message"
+            raised
+            reverse
+          />
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  messageBoxContainer: {
+    flex: 1,
+    display: 'flex',
     flexDirection: 'row',
     margin: 0,
     paddingLeft: 10
   },
-  sendButtonWrapepr: {},
   messageInput: {
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
     textAlign: 'left',
     flex: 4
+  },
+  messageListContainer: {
+    flex: 4
+  },
+  pageContainer: {
+    display: 'flex',
+    flex: 1
   }
 });
