@@ -21,7 +21,7 @@ export const CustomInput = ({
 
   return (
     <TextInput
-      style={[styles.input, propsStyle, { borderBottomColor: color }]}
+      style={[styles.input, propsStyle, { borderColor: color }]}
       {...restTextInputProps}
     />
   );

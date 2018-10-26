@@ -37,7 +37,7 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
 export const addMessageToChatRoom = functions.https.onRequest(
   (request, response) => {
     const {
-      body: { roomId, from, messageText }
+      body: { roomId, from, text }
     } = request;
 
     const roomMessagesRef = db
@@ -47,7 +47,7 @@ export const addMessageToChatRoom = functions.https.onRequest(
 
     roomMessagesRef
       .add({
-        message: messageText,
+        text,
         from
       })
       .then(() => {

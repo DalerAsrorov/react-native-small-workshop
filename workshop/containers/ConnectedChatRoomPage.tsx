@@ -9,8 +9,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  onSaveNewMessage({ from, messageText, roomId }: MessagePayload) {
-    dispatch(saveNewMessage({ from, messageText, roomId }));
+  onSaveNewMessage({ from, text, roomId }: MessagePayload) {
+    dispatch(saveNewMessage({ from, text, roomId }));
   },
   onFetchChatRoomMessages(chatRoomId: ChatRoomProps['id']) {
     dispatch(fetchAllChatRoomMessages(chatRoomId));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
@@ -16,16 +16,43 @@ interface ChatRoomPageProps {
 }
 
 interface ChatRoomPageState {
-  currentMessage: MessagePayload['messageText'];
+  currentMessage: MessagePayload['text'];
   roomId: MessagePayload['roomId'];
 }
 
 const MAX_NUMBER_OF_LINES = 4;
+const MESSAGES_POLLING_INTERVAL = 5000;
+
+const MessageList = ({ messages }: { messages: Array<MessagePayload> }) => {
+  return (
+    <List>
+      {messages.map((message: MessagePayload) => (
+        <ListItem
+          key={message.id}
+          title={message.from}
+          subtitle={
+            <View style={styles.messageTextContainer}>
+              <Text style={styles.messageText}>{message.text}</Text>
+            </View>
+          }
+        />
+      ))}
+    </List>
+  );
+};
 
 export default class ChatRoomPage extends React.PureComponent<
   ChatRoomPageProps,
   ChatRoomPageState
 > {
+  private messagePollInterval: any;
+
+  constructor(props: ChatRoomPageProps) {
+    super(props);
+
+    this.messagePollInterval = React.createRef();
+  }
+
   state = {
     currentMessage: '',
     roomId: ''
@@ -47,7 +74,7 @@ export default class ChatRoomPage extends React.PureComponent<
 
     onSaveNewMessage({
       from: username,
-      messageText: currentMessage,
+      text: currentMessage,
       roomId
     });
 
@@ -56,8 +83,17 @@ export default class ChatRoomPage extends React.PureComponent<
     });
   };
 
+  private fetchChatRoomMessages = () => {
+    const { onFetchChatRoomMessages } = this.props;
+    const { roomId } = this.state;
+
+    if (roomId.length > 0) {
+      onFetchChatRoomMessages(roomId);
+    }
+  };
+
   componentDidMount() {
-    const { navigation, onFetchChatRoomMessages } = this.props;
+    const { navigation } = this.props;
     const {
       state: {
         params: { chatRoomId: roomId }
@@ -68,45 +104,73 @@ export default class ChatRoomPage extends React.PureComponent<
       roomId
     });
 
-    onFetchChatRoomMessages(roomId);
+    this.fetchChatRoomMessages();
+
+    this.messagePollInterval = setInterval(() => {
+      this.fetchChatRoomMessages();
+    }, MESSAGES_POLLING_INTERVAL);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.messagePollInterval);
   }
 
   render() {
     const { messages } = this.props;
 
-    console.log({ messages });
-
     return (
-      <View style={styles.container}>
-        <TextArea
-          value={this.state.currentMessage}
-          style={styles.messageInput}
-          multiline={true}
-          numberOfLines={MAX_NUMBER_OF_LINES}
-          onChangeText={this.handleMessageInput}
-        />
-        <Icon
-          onPress={this.handleSaveMessage}
-          containerStyle={styles.sendButtonWrapepr}
-          color={PRIMARY_COLOR}
-          name="message"
-          raised
-          reverse
-        />
+      <View style={styles.pageContainer}>
+        <View style={styles.messageListContainer}>
+          <MessageList messages={messages} />
+        </View>
+        <View style={styles.messageBoxContainer}>
+          <TextArea
+            placeholder="Type message..."
+            value={this.state.currentMessage}
+            style={styles.messageInput}
+            multiline={true}
+            numberOfLines={MAX_NUMBER_OF_LINES}
+            onChangeText={this.handleMessageInput}
+          />
+          <Icon
+            onPress={this.handleSaveMessage}
+            color={PRIMARY_COLOR}
+            name="message"
+            raised
+            reverse
+          />
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  messageText: {
+    fontSize: 16,
+    marginLeft: 10
+  },
+  messageTextContainer: {
+    paddingVertical: 8
+  },
+  messageBoxContainer: {
+    flex: 1,
+    display: 'flex',
     flexDirection: 'row',
     margin: 0,
     paddingLeft: 10
   },
-  sendButtonWrapepr: {},
   messageInput: {
+    borderTopWidth: 1,
+    borderBottomWidth: 0,
     textAlign: 'left',
     flex: 4
+  },
+  messageListContainer: {
+    flex: 4
+  },
+  pageContainer: {
+    display: 'flex',
+    flex: 1
   }
 });
