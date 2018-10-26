@@ -35,14 +35,14 @@ export const createChatRoom = ({
 
 export const saveNewMessage = ({
   from,
-  messageText,
+  text,
   roomId
 }: MessagePayload): Promise<{ success: boolean }> => {
   return fetch(`${REQUEST_BASE}/addMessageToChatRoom`, {
     method: 'post',
     body: stringifyJson({
+      text,
       from,
-      messageText,
       roomId
     }),
     ...REQUEST_DEF_PARAMS

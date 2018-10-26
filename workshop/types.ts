@@ -24,9 +24,10 @@ interface ChatRoomProps {
 }
 
 interface MessagePayload {
+  id?: string;
   from: User['username'];
   roomId: ChatRoomProps['id'];
-  messageText: string;
+  text: string;
 }
 
 // 3rd party libraries that don't have integrated Typescript types

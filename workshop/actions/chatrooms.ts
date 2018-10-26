@@ -71,7 +71,6 @@ export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
 ) => {
   return fetchAllChatRoomMessagesApi(roomId).then(
     (messages: Array<MessagePayload>) => {
-      console.log('From api: ', { messages });
       dispatch(receiveAllChatroomMessages(messages));
     }
   );

@@ -29,14 +29,14 @@ exports.createChatRoom = functions.https.onRequest((request, response) => {
  *
  */
 exports.addMessageToChatRoom = functions.https.onRequest((request, response) => {
-    const { body: { roomId, from, messageText } } = request;
+    const { body: { roomId, from, text } } = request;
     const roomMessagesRef = db
         .collection('rooms')
         .doc(roomId)
         .collection('messages');
     roomMessagesRef
         .add({
-        message: messageText,
+        text,
         from
     })
         .then(() => {

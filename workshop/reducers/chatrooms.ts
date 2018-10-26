@@ -40,7 +40,7 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
     case RECEIVE_ALL_CHATROOM_MESSAGES:
       return {
         ...state,
-        messages: action.payload
+        messages: action.payload || []
       };
     default:
       return state;

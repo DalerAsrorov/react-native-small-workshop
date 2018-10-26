@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
@@ -16,11 +16,29 @@ interface ChatRoomPageProps {
 }
 
 interface ChatRoomPageState {
-  currentMessage: MessagePayload['messageText'];
+  currentMessage: MessagePayload['text'];
   roomId: MessagePayload['roomId'];
 }
 
 const MAX_NUMBER_OF_LINES = 4;
+
+const MessageList = ({ messages }: { messages: Array<MessagePayload> }) => {
+  return (
+    <List>
+      {messages.map((message: MessagePayload) => (
+        <ListItem
+          key={message.id}
+          title={message.from}
+          subtitle={
+            <View style={styles.messageTextContainer}>
+              <Text style={styles.messageText}>{message.text}</Text>
+            </View>
+          }
+        />
+      ))}
+    </List>
+  );
+};
 
 export default class ChatRoomPage extends React.PureComponent<
   ChatRoomPageProps,
@@ -47,7 +65,7 @@ export default class ChatRoomPage extends React.PureComponent<
 
     onSaveNewMessage({
       from: username,
-      messageText: currentMessage,
+      text: currentMessage,
       roomId
     });
 
@@ -74,15 +92,10 @@ export default class ChatRoomPage extends React.PureComponent<
   render() {
     const { messages } = this.props;
 
-    console.log({ messages });
-
     return (
       <View style={styles.pageContainer}>
         <View style={styles.messageListContainer}>
-          <Text>Hello</Text>
-          <Text>Hello</Text>
-          <Text>Hello</Text>
-          <Text>Hello</Text>
+          <MessageList messages={messages} />
         </View>
         <View style={styles.messageBoxContainer}>
           <TextArea
@@ -107,6 +120,12 @@ export default class ChatRoomPage extends React.PureComponent<
 }
 
 const styles = StyleSheet.create({
+  messageText: {
+    fontSize: 16
+  },
+  messageTextContainer: {
+    paddingVertical: 8
+  },
   messageBoxContainer: {
     flex: 1,
     display: 'flex',
