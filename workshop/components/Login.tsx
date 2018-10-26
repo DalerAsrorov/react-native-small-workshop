@@ -4,7 +4,7 @@ import { SECONDARY_COLOR } from '../colors';
 import { CustomInput, CustomButton } from './CustomInputs';
 
 interface LoginProps {
-  username: string;
+  username: User['username'];
   onSetUsername: (usernameInput: string) => any;
   onLogin: () => any;
   navigation: { replace: (path: string) => void };

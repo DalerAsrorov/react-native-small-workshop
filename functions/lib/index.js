@@ -24,6 +24,28 @@ exports.createChatRoom = functions.https.onRequest((request, response) => {
     });
 });
 /**
+ *
+ */
+exports.addMessageToChatRoom = functions.https.onRequest((request, response) => {
+    const { body: { roomId, from, messageText } } = request;
+    const roomMessagesRef = admin
+        .firestore()
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages');
+    roomMessagesRef
+        .add({
+        message: messageText,
+        from
+    })
+        .then(() => {
+        response.status(201).send({ success: true });
+    })
+        .catch(error => {
+        response.status(500).send(error);
+    });
+});
+/**
  * Retrieve chatrooms from the Firestore
  */
 exports.getChatRooms = functions.https.onRequest((request, response) => {

@@ -7,6 +7,7 @@ interface ChatRoomsState {
   chatrooms: Array<ChatRoomProps>;
   isCreatingChatRoom: boolean;
   hasReceivedChatRooms: boolean;
+  isSavingNewMessage: boolean;
 }
 
 interface AppState {
@@ -15,10 +16,16 @@ interface AppState {
 }
 
 interface ChatRoomProps {
-  id: string;
   name: string;
   owner: User['username'];
   themeColor: string;
+  id?: string;
+}
+
+interface MessagePayload {
+  from: User['username'];
+  roomId: ChatRoomProps['id'];
+  messageText: string;
 }
 
 // 3rd party libraries that don't have integrated Typescript types

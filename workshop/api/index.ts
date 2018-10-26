@@ -31,6 +31,27 @@ export const createChatRoom = ({
     .catch(error => console.log('Error creating chat room', error));
 };
 
+export const saveNewMessage = ({
+  from,
+  messageText,
+  roomId
+}: MessagePayload): Promise<{ success: boolean }> => {
+  return fetch(`${REQUEST_BASE}/addMessageToChatRoom`, {
+    method: 'post',
+    body: stringifyJson({
+      from,
+      messageText,
+      roomId
+    }),
+    ...REQUEST_DEF_PARAMS
+  })
+    .then(response => response.json())
+    .then(({ success }) => success)
+    .catch(error =>
+      console.log(`Error adding a new message to chatroom ${roomId}:`, error)
+    );
+};
+
 export const getAllChatRooms = (): Promise<Array<ChatRoomProps>> => {
   return fetch(`${REQUEST_BASE}/getChatRooms`, {
     method: 'get',

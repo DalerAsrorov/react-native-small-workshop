@@ -5,7 +5,7 @@ export const setUserLoggedIn = (isLoggedIn: boolean = true) => ({
 });
 
 export const SET_USERNAME: string = 'SET_USERNAME';
-export const setUsername = (username: string) => ({
+export const setUsername = (username: User['username']) => ({
   type: SET_USERNAME,
   payload: username
 });

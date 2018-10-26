@@ -12,7 +12,7 @@ import { NavigationParams } from 'react-navigation';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 
 interface ChatRoomsFeedProps {
-  username: string;
+  username: User['username'];
   navigation: NavigationParams;
   chatrooms: Array<ChatRoomProps>;
   hasReceivedChatRooms: boolean;
@@ -41,6 +41,7 @@ const ChatFeedList = ({
             subtitle={`Created by ${chatroom.owner}`}
             leftIcon={
               <Icon
+                key={chatroom.id}
                 containerStyle={styles.iconContainerStyle}
                 name="chat"
                 color={chatroom.themeColor}
