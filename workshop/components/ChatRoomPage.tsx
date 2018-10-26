@@ -68,7 +68,7 @@ export default class ChatRoomPage extends React.PureComponent<
     // TODO: Use chatroomId param from navigation state to fetch
     // all the messages of this chat room
 
-    console.log({ roomId });
+    console.log(`Current chatroom ID: ${roomId}`);
   }
 
   render() {
