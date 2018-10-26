@@ -74,6 +74,8 @@ export default class ChatRoomPage extends React.PureComponent<
   render() {
     const { messages } = this.props;
 
+    console.log({ messages });
+
     return (
       <View style={styles.container}>
         <TextArea

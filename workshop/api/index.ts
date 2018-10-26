@@ -1,7 +1,9 @@
-const shouldUseLocale: boolean = true;
-const REQUEST_BASE: string = shouldUseLocale
-  ? 'http://localhost:5000/react-native-small-workshop/us-central1'
-  : '';
+const shouldUseLocale: boolean = false;
+const LOCAL_API =
+  'http://localhost:5000/react-native-small-workshop/us-central1';
+const REMOTE_API =
+  'https://us-central1-react-native-small-workshop.cloudfunctions.net';
+const REQUEST_BASE: string = shouldUseLocale ? LOCAL_API : REMOTE_API;
 const REQUEST_DEF_PARAMS: RequestInit = {
   mode: 'cors',
   headers: {
@@ -48,7 +50,10 @@ export const saveNewMessage = ({
     .then(response => response.json())
     .then(({ success }) => success)
     .catch(error =>
-      console.log(`Error adding a new message to chatroom ${roomId}:`, error)
+      console.log(
+        `Error adding a new message to chatroom with ID - ${roomId}:`,
+        error
+      )
     );
 };
 
@@ -72,8 +77,10 @@ export const fetchAllChatRoomMessages = (
     ...REQUEST_DEF_PARAMS
   })
     .then(response => response.json())
-    .then(({ success }) => success)
     .catch(error =>
-      console.log(`Error adding a new message to chatroom ${roomId}:`, error)
+      console.log(
+        `Error fetching messages for the chatroom with ID - ${roomId}:`,
+        error
+      )
     );
 };

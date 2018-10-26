@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(saveNewMessage({ from, messageText, roomId }));
   },
   onFetchChatRoomMessages(chatRoomId: ChatRoomProps['id']) {
-    fetchAllChatRoomMessages(chatRoomId);
+    dispatch(fetchAllChatRoomMessages(chatRoomId));
   }
 });
 
