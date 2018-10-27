@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import ChatRoomPage from '../components/ChatRoomPage';
-import { saveNewMessage, fetchAllChatRoomMessages } from '../actions';
+import {
+  saveNewMessage,
+  fetchAllChatRoomMessages,
+  addNewChatRoomMessage
+} from '../actions';
 
 const mapStateToProps = (state: AppState) => ({
   username: state.user.username,
@@ -14,6 +18,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
   onFetchChatRoomMessages(chatRoomId: ChatRoomProps['id']) {
     dispatch(fetchAllChatRoomMessages(chatRoomId));
+  },
+  onAddNewMessage(message: MessagePayload) {
+    dispatch(addNewChatRoomMessage(message));
   }
 });
 

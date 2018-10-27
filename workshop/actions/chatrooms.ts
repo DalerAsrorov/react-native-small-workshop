@@ -42,6 +42,12 @@ export const fetchAllChatRooms = () => (dispatch: any) => {
   });
 };
 
+export const ADD_NEW_CHATROOM_MESSAGE = 'ADD_NEW_CHATROOM_MESSAGE';
+export const addNewChatRoomMessage = (message: MessagePayload) => ({
+  type: ADD_NEW_CHATROOM_MESSAGE,
+  payload: message
+});
+
 export const REQUEST_SAVE_NEW_MESSAGE = 'REQUEST_SAVE_NEW_MESSAGE';
 export const requestSaveNewMessage = (isSavingNewMessage: boolean = true) => ({
   type: REQUEST_SAVE_NEW_MESSAGE,
