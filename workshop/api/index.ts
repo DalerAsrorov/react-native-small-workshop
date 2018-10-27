@@ -1,3 +1,5 @@
+import { transformData } from './utils';
+
 const shouldUseLocale: boolean = false;
 const LOCAL_API =
   'http://localhost:5000/react-native-small-workshop/us-central1';
@@ -57,13 +59,14 @@ export const saveNewMessage = ({
     );
 };
 
-export const getAllChatRooms = (): Promise<Array<ChatRoomProps>> => {
+export const getAllChatRooms = (): Promise<ChatRoomMap> => {
   return fetch(`${REQUEST_BASE}/getChatRooms`, {
     method: 'get',
     ...REQUEST_DEF_PARAMS
   })
     .then(response => response.json())
-    .catch(error => console.log('Error creating chat room', error));
+    .then(data => transformData(data))
+    .catch(error => error);
 };
 
 export const fetchAllChatRoomMessages = (

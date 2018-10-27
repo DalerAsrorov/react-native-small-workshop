@@ -31,13 +31,13 @@ export const createNewChatroom = ({
 };
 
 export const RECEIVE_ALL_CHATROOMS = 'RECEIVE_ALL_CHATROOMS';
-export const receiveAllChatrooms = (chatrooms: Array<ChatRoomProps>) => ({
+export const receiveAllChatrooms = (chatrooms: ChatRoomMap) => ({
   type: RECEIVE_ALL_CHATROOMS,
   payload: chatrooms
 });
 
 export const fetchAllChatRooms = () => (dispatch: any) => {
-  return getAllChatRooms().then((chatrooms: Array<ChatRoomProps>) => {
+  return getAllChatRooms().then((chatrooms: ChatRoomMap) => {
     dispatch(receiveAllChatrooms(chatrooms));
   });
 };

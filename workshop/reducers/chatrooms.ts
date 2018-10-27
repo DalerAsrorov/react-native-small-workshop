@@ -1,3 +1,5 @@
+import { clone } from 'ramda';
+import { generateTempId } from '../api/utils';
 import {
   REQUEST_CREATE_NEW_CHATROOM,
   ADD_MY_NEW_CHATROOM_TO_QUEUE,
@@ -8,7 +10,7 @@ import {
 } from '../actions';
 
 const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
-  chatrooms: [],
+  chatrooms: {},
   messages: [],
   isCreatingChatRoom: false,
   hasReceivedChatRooms: false,
@@ -16,6 +18,8 @@ const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
 };
 
 const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
+  let chatRoomMap: any = {};
+
   switch (action.type) {
     case REQUEST_CREATE_NEW_CHATROOM:
       return {
@@ -23,9 +27,19 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
         isCreatingChatRoom: action.payload
       };
     case ADD_MY_NEW_CHATROOM_TO_QUEUE:
+      const newChatRooom = {
+        id: generateTempId(),
+        ...action.payload
+      };
+
+      chatRoomMap = clone(state.chatrooms);
+      chatRoomMap[newChatRooom.id] = {
+        ...newChatRooom
+      };
+
       return {
         ...state,
-        chatrooms: [action.payload, ...state.chatrooms]
+        chatrooms: chatRoomMap
       };
     case RECEIVE_ALL_CHATROOMS:
       return {

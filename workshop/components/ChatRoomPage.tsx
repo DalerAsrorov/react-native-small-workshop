@@ -4,6 +4,7 @@ import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
+import { generateTempId } from '../api/utils';
 import { CustomInput as TextArea } from './CustomInputs';
 
 interface ChatRoomPageProps {
@@ -80,7 +81,7 @@ export default class ChatRoomPage extends React.PureComponent<
 
     // add new message to the queue for the user to see
     // generate a temporary string ID for the iterator to identify the key
-    onAddNewMessage({ ...messagePayload, id: String(Date.now()) });
+    onAddNewMessage({ ...messagePayload, id: generateTempId() });
     // save new message to the database
     onSaveNewMessage(messagePayload);
     // clear out the input after message has been sent

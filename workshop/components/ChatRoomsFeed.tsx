@@ -14,7 +14,7 @@ import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 interface ChatRoomsFeedProps {
   username: User['username'];
   navigation: NavigationParams;
-  chatrooms: Array<ChatRoomProps>;
+  chatrooms: ChatRoomMap;
   hasReceivedChatRooms: boolean;
   onFetchAllChatRooms: () => void;
 }
@@ -25,7 +25,7 @@ const ChatFeedList = ({
   chatrooms
 }: {
   isShown: boolean;
-  chatrooms: Array<ChatRoomProps>;
+  chatrooms: ChatRoomMap;
   onChatRoomClick: (chatroom: ChatRoomProps['id']) => void;
 }) => {
   let chatroomsList = null;
