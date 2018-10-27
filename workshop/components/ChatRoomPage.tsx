@@ -99,6 +99,14 @@ export default class ChatRoomPage extends React.PureComponent<
   };
 
   componentDidMount() {
+    this.fetchChatRoomMessages();
+
+    this.messagePollInterval = setInterval(() => {
+      this.fetchChatRoomMessages();
+    }, MESSAGES_POLLING_INTERVAL);
+  }
+
+  componentWillMount() {
     const { navigation } = this.props;
     const {
       state: {
@@ -109,12 +117,6 @@ export default class ChatRoomPage extends React.PureComponent<
     this.setState({
       roomId
     });
-
-    this.fetchChatRoomMessages();
-
-    this.messagePollInterval = setInterval(() => {
-      this.fetchChatRoomMessages();
-    }, MESSAGES_POLLING_INTERVAL);
   }
 
   componentWillUnmount() {
