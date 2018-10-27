@@ -3,7 +3,8 @@ import {
   ADD_MY_NEW_CHATROOM_TO_QUEUE,
   RECEIVE_ALL_CHATROOMS,
   REQUEST_SAVE_NEW_MESSAGE,
-  RECEIVE_ALL_CHATROOM_MESSAGES
+  RECEIVE_ALL_CHATROOM_MESSAGES,
+  ADD_NEW_CHATROOM_MESSAGE
 } from '../actions';
 
 const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
@@ -41,6 +42,11 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
       return {
         ...state,
         messages: action.payload || []
+      };
+    case ADD_NEW_CHATROOM_MESSAGE:
+      return {
+        ...state,
+        messages: [...state.messages, action.payload]
       };
     default:
       return state;

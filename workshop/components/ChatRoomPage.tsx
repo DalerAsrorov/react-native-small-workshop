@@ -13,6 +13,7 @@ interface ChatRoomPageProps {
   messages: ChatRoomsState['messages'];
   onSaveNewMessage: (message: MessagePayload) => void;
   onFetchChatRoomMessages: (roomId: MessagePayload['roomId']) => any;
+  onAddNewMessage: (message: MessagePayload) => void;
 }
 
 interface ChatRoomPageState {
@@ -70,14 +71,19 @@ export default class ChatRoomPage extends React.PureComponent<
 
   private saveNewMessage = () => {
     const { currentMessage, roomId } = this.state;
-    const { username, onSaveNewMessage } = this.props;
-
-    onSaveNewMessage({
+    const { username, onSaveNewMessage, onAddNewMessage } = this.props;
+    const messagePayload: MessagePayload = {
       from: username,
       text: currentMessage,
       roomId
-    });
+    };
 
+    // add new message to the queue for the user to see
+    // generate a temporary string ID for the iterator to identify the key
+    onAddNewMessage({ ...messagePayload, id: String(Date.now()) });
+    // save new message to the database
+    onSaveNewMessage(messagePayload);
+    // clear out the input after message has been sent
     this.setState({
       currentMessage: ''
     });
