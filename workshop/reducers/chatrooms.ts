@@ -1,5 +1,4 @@
 import { clone } from 'ramda';
-import { generateTempId } from '../api/utils';
 import {
   REQUEST_CREATE_NEW_CHATROOM,
   ADD_MY_NEW_CHATROOM_TO_QUEUE,
@@ -28,10 +27,7 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
         isCreatingChatRoom: action.payload
       };
     case ADD_MY_NEW_CHATROOM_TO_QUEUE:
-      const newChatRooom = {
-        id: generateTempId(),
-        ...action.payload
-      };
+      const newChatRooom = action.payload;
 
       chatRoomMap = clone(state.chatrooms);
       chatRoomMap[newChatRooom.id] = {

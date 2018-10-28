@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, FlatList, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  View,
+  Text,
+  ScrollViewProperties
+} from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
@@ -67,11 +74,13 @@ export default class ChatRoomPage extends React.PureComponent<
   ChatRoomPageState
 > {
   private messagePollInterval: any;
+  private scrollView: any;
 
   constructor(props: ChatRoomPageProps) {
     super(props);
 
     this.messagePollInterval = React.createRef();
+    this.scrollView = React.createRef();
   }
 
   state = {
@@ -150,7 +159,14 @@ export default class ChatRoomPage extends React.PureComponent<
     return (
       <View style={styles.pageContainer}>
         <View style={styles.messageListContainer}>
-          <MessageList roomId={roomId} chatrooms={chatrooms} />
+          <ScrollView
+            ref={ref => (this.scrollView = ref)}
+            onContentSizeChange={(contentWidth, contentHeight) =>
+              this.scrollView.scrollToEnd({ animated: true })
+            }
+          >
+            <MessageList roomId={roomId} chatrooms={chatrooms} />
+          </ScrollView>
         </View>
         <View style={styles.messageBoxContainer}>
           <TextArea
