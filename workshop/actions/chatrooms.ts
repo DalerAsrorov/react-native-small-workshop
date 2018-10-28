@@ -43,12 +43,6 @@ export const fetchAllChatRooms = () => (dispatch: any) => {
   });
 };
 
-export const ADD_NEW_CHATROOM_MESSAGE = 'ADD_NEW_CHATROOM_MESSAGE';
-export const addNewChatRoomMessage = (message: MessagePayload) => ({
-  type: ADD_NEW_CHATROOM_MESSAGE,
-  payload: message
-});
-
 export const REQUEST_SAVE_NEW_MESSAGE = 'REQUEST_SAVE_NEW_MESSAGE';
 export const requestSaveNewMessage = (isSavingNewMessage: boolean = true) => ({
   type: REQUEST_SAVE_NEW_MESSAGE,
@@ -65,12 +59,28 @@ export const saveNewMessage = (messagePayload: MessagePayload) => (
   });
 };
 
+export const ADD_NEW_CHATROOM_MESSAGE = 'ADD_NEW_CHATROOM_MESSAGE';
+export const addNewChatRoomMessage = (
+  message: MessagePayload,
+  roomId: MessagePayload['roomId']
+) => ({
+  type: ADD_NEW_CHATROOM_MESSAGE,
+  payload: {
+    message,
+    roomId
+  }
+});
+
 export const RECEIVE_ALL_CHATROOM_MESSAGES = 'RECEIVE_ALL_CHATROOM_MESSAGES';
 export const receiveAllChatroomMessages = (
-  messages: Array<MessagePayload>
+  messages: Array<MessagePayload>,
+  roomId: MessagePayload['roomId']
 ) => ({
   type: RECEIVE_ALL_CHATROOM_MESSAGES,
-  payload: messages
+  payload: {
+    roomId,
+    messages
+  }
 });
 
 export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
@@ -78,7 +88,7 @@ export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
 ) => {
   return fetchAllChatRoomMessagesApi(roomId).then(
     (messages: Array<MessagePayload>) => {
-      dispatch(receiveAllChatroomMessages(messages));
+      dispatch(receiveAllChatroomMessages(messages, roomId));
     }
   );
 };

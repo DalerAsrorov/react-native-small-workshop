@@ -3,18 +3,22 @@ import { StyleSheet, FlatList, View, Text } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
+import { isEmpty } from 'ramda';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 import { generateTempId } from '../api/utils';
 import { CustomInput as TextArea } from './CustomInputs';
 
 interface ChatRoomPageProps {
+  chatrooms: ChatRoomMap;
   isSavingNewMessage: ChatRoomsState['isSavingNewMessage'];
   navigation: NavigationParams;
   username: User['username'];
-  messages: ChatRoomsState['messages'];
   onSaveNewMessage: (message: MessagePayload) => void;
   onFetchChatRoomMessages: (roomId: MessagePayload['roomId']) => any;
-  onAddNewMessage: (message: MessagePayload) => void;
+  onAddNewMessage: (
+    message: MessagePayload,
+    roomId: MessagePayload['roomId']
+  ) => void;
 }
 
 interface ChatRoomPageState {
@@ -25,22 +29,37 @@ interface ChatRoomPageState {
 const MAX_NUMBER_OF_LINES = 4;
 const MESSAGES_POLLING_INTERVAL = 5000;
 
-const MessageList = ({ messages }: { messages: Array<MessagePayload> }) => {
-  return (
-    <List>
-      {messages.map((message: MessagePayload) => (
-        <ListItem
-          key={message.id}
-          title={message.from}
-          subtitle={
-            <View style={styles.messageTextContainer}>
-              <Text style={styles.messageText}>{message.text}</Text>
-            </View>
-          }
-        />
-      ))}
-    </List>
-  );
+const MessageList = ({
+  chatrooms,
+  roomId
+}: {
+  chatrooms: ChatRoomMap;
+  roomId: MessagePayload['roomId'];
+}) => {
+  const messages = roomId ? chatrooms[roomId].messages : null;
+  let messageList = null;
+
+  console.log({ messages });
+
+  if (messages && !isEmpty(messages)) {
+    messageList = (
+      <List>
+        {messages.map((message: MessagePayload) => (
+          <ListItem
+            key={message.id}
+            title={message.from}
+            subtitle={
+              <View style={styles.messageTextContainer}>
+                <Text style={styles.messageText}>{message.text}</Text>
+              </View>
+            }
+          />
+        ))}
+      </List>
+    );
+  }
+
+  return messageList;
 };
 
 export default class ChatRoomPage extends React.PureComponent<
@@ -81,7 +100,7 @@ export default class ChatRoomPage extends React.PureComponent<
 
     // add new message to the queue for the user to see
     // generate a temporary string ID for the iterator to identify the key
-    onAddNewMessage({ ...messagePayload, id: generateTempId() });
+    onAddNewMessage({ id: generateTempId(), ...messagePayload }, roomId);
     // save new message to the database
     onSaveNewMessage(messagePayload);
     // clear out the input after message has been sent
@@ -125,12 +144,13 @@ export default class ChatRoomPage extends React.PureComponent<
   }
 
   render() {
-    const { messages } = this.props;
+    const { roomId } = this.state;
+    const { chatrooms } = this.props;
 
     return (
       <View style={styles.pageContainer}>
         <View style={styles.messageListContainer}>
-          <MessageList messages={messages} />
+          <MessageList roomId={roomId} chatrooms={chatrooms} />
         </View>
         <View style={styles.messageBoxContainer}>
           <TextArea

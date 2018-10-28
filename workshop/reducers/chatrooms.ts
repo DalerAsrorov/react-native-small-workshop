@@ -11,7 +11,6 @@ import {
 
 const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
   chatrooms: {},
-  messages: [],
   isCreatingChatRoom: false,
   hasReceivedChatRooms: false,
   isSavingNewMessage: false
@@ -19,6 +18,8 @@ const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
 
 const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
   let chatRoomMap: any = {};
+  let roomId: string = '';
+  let messages: Array<MessagePayload> = [];
 
   switch (action.type) {
     case REQUEST_CREATE_NEW_CHATROOM:
@@ -53,14 +54,23 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
         isSavingNewMessage: action.payload
       };
     case RECEIVE_ALL_CHATROOM_MESSAGES:
+      chatRoomMap = clone(state.chatrooms);
+      chatRoomMap[action.payload.roomId].messages = action.payload.messages;
+
       return {
         ...state,
-        messages: action.payload || []
+        chatrooms: chatRoomMap
       };
     case ADD_NEW_CHATROOM_MESSAGE:
+      roomId = action.payload.roomId;
+      chatRoomMap = clone(state.chatrooms);
+      messages = chatRoomMap[roomId].messages;
+
+      chatRoomMap[roomId].messages = [...messages, action.payload.message];
+
       return {
         ...state,
-        messages: [...state.messages, action.payload]
+        chatrooms: chatRoomMap
       };
     default:
       return state;

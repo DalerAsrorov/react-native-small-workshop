@@ -8,7 +8,6 @@ interface ChatRoomsState {
   isCreatingChatRoom: boolean;
   hasReceivedChatRooms: boolean;
   isSavingNewMessage: boolean;
-  messages: Array<MessagePayload>;
 }
 
 interface ChatRoomMap {
@@ -21,6 +20,7 @@ interface AppState {
 }
 
 interface ChatRoomProps {
+  messages: Array<MessagePayload> | undefined;
   name: string;
   owner: User['username'];
   themeColor: string;
