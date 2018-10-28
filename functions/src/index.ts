@@ -33,7 +33,7 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
 });
 
 /**
- *
+ * Add a new message to the chatroom's message queue
  */
 export const addMessageToChatRoom = functions.https.onRequest(
   (request, response) => {
