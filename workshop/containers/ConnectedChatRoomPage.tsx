@@ -9,7 +9,7 @@ import {
 const mapStateToProps = (state: AppState) => ({
   username: state.user.username,
   isSavingMessage: state.chatrooms.isSavingNewMessage,
-  messages: state.chatrooms.messages
+  chatrooms: state.chatrooms.chatrooms
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   onFetchChatRoomMessages(chatRoomId: ChatRoomProps['id']) {
     dispatch(fetchAllChatRoomMessages(chatRoomId));
   },
-  onAddNewMessage(message: MessagePayload) {
-    dispatch(addNewChatRoomMessage(message));
+  onAddNewMessage(message: MessagePayload, roomId: MessagePayload['roomId']) {
+    dispatch(addNewChatRoomMessage(message, roomId));
   }
 });
 

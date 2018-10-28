@@ -31,22 +31,17 @@ export const createNewChatroom = ({
 };
 
 export const RECEIVE_ALL_CHATROOMS = 'RECEIVE_ALL_CHATROOMS';
-export const receiveAllChatrooms = (chatrooms: Array<ChatRoomProps>) => ({
+export const receiveAllChatrooms = (chatrooms: ChatRoomMap) => ({
   type: RECEIVE_ALL_CHATROOMS,
   payload: chatrooms
 });
 
 export const fetchAllChatRooms = () => (dispatch: any) => {
-  return getAllChatRooms().then((chatrooms: Array<ChatRoomProps>) => {
+  return getAllChatRooms().then((chatrooms: ChatRoomMap) => {
     dispatch(receiveAllChatrooms(chatrooms));
+    return chatrooms;
   });
 };
-
-export const ADD_NEW_CHATROOM_MESSAGE = 'ADD_NEW_CHATROOM_MESSAGE';
-export const addNewChatRoomMessage = (message: MessagePayload) => ({
-  type: ADD_NEW_CHATROOM_MESSAGE,
-  payload: message
-});
 
 export const REQUEST_SAVE_NEW_MESSAGE = 'REQUEST_SAVE_NEW_MESSAGE';
 export const requestSaveNewMessage = (isSavingNewMessage: boolean = true) => ({
@@ -64,12 +59,28 @@ export const saveNewMessage = (messagePayload: MessagePayload) => (
   });
 };
 
+export const ADD_NEW_CHATROOM_MESSAGE = 'ADD_NEW_CHATROOM_MESSAGE';
+export const addNewChatRoomMessage = (
+  message: MessagePayload,
+  roomId: MessagePayload['roomId']
+) => ({
+  type: ADD_NEW_CHATROOM_MESSAGE,
+  payload: {
+    message,
+    roomId
+  }
+});
+
 export const RECEIVE_ALL_CHATROOM_MESSAGES = 'RECEIVE_ALL_CHATROOM_MESSAGES';
 export const receiveAllChatroomMessages = (
-  messages: Array<MessagePayload>
+  messages: Array<MessagePayload>,
+  roomId: MessagePayload['roomId']
 ) => ({
   type: RECEIVE_ALL_CHATROOM_MESSAGES,
-  payload: messages
+  payload: {
+    roomId,
+    messages
+  }
 });
 
 export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
@@ -77,7 +88,7 @@ export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
 ) => {
   return fetchAllChatRoomMessagesApi(roomId).then(
     (messages: Array<MessagePayload>) => {
-      dispatch(receiveAllChatroomMessages(messages));
+      dispatch(receiveAllChatroomMessages(messages, roomId));
     }
   );
 };

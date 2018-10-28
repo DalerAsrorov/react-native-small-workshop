@@ -6,7 +6,7 @@ import { PRIMARY_COLOR } from '../colors';
 
 interface CreateRoomModalScreenProps {
   username: User['username'];
-  chatrooms: Array<ChatRoomProps>;
+  chatrooms: ChatRoomMap;
   onCreateChatRoom: (chatRoom: ChatRoomProps) => void;
   navigation: {
     goBack: () => void;

@@ -4,11 +4,14 @@ interface User {
 }
 
 interface ChatRoomsState {
-  chatrooms: Array<ChatRoomProps>;
+  chatrooms: ChatRoomMap;
   isCreatingChatRoom: boolean;
   hasReceivedChatRooms: boolean;
   isSavingNewMessage: boolean;
-  messages: Array<MessagePayload>;
+}
+
+interface ChatRoomMap {
+  [id: string]: ChatRoomProps;
 }
 
 interface AppState {
@@ -17,6 +20,7 @@ interface AppState {
 }
 
 interface ChatRoomProps {
+  messages: Array<MessagePayload> | undefined;
   name: string;
   owner: User['username'];
   themeColor: string;
