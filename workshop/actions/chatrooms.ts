@@ -39,6 +39,7 @@ export const receiveAllChatrooms = (chatrooms: ChatRoomMap) => ({
 export const fetchAllChatRooms = () => (dispatch: any) => {
   return getAllChatRooms().then((chatrooms: ChatRoomMap) => {
     dispatch(receiveAllChatrooms(chatrooms));
+    return chatrooms;
   });
 };
 

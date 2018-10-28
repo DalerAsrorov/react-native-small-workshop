@@ -9,6 +9,7 @@ import {
 import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
+import { isEmpty, values } from 'ramda';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 
 interface ChatRoomsFeedProps {
@@ -33,7 +34,7 @@ const ChatFeedList = ({
   if (isShown) {
     chatroomsList = (
       <FlatList
-        data={chatrooms}
+        data={values(chatrooms)}
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
           <ListItem
             onPress={() => onChatRoomClick(chatroom.id)}
@@ -80,8 +81,7 @@ export default class ChatRoomsFeed extends React.PureComponent<
 
   render() {
     const { chatrooms, hasReceivedChatRooms } = this.props;
-    const shouldShowChatRooms =
-      chatrooms && chatrooms.length > 0 && hasReceivedChatRooms;
+    const shouldShowChatRooms = !isEmpty(chatrooms) && hasReceivedChatRooms;
 
     return (
       <View style={styles.container}>
