@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, TextInput, View, StyleSheet } from 'react-native';
 import { ColorPicker } from 'react-native-color-picker';
+import * as R from 'ramda';
 import { CustomInput, CustomButton } from './CustomInputs';
 import { PRIMARY_COLOR } from '../colors';
 
@@ -42,8 +43,12 @@ export default class CreateRoomModalScreen extends React.Component<
   private handleRoomCreate = () => {
     const { username, onCreateChatRoom } = this.props;
     const { newRoomName, themeColor } = this.state;
+    const isNewRoomNameEmpty = R.compose(
+      R.isEmpty,
+      R.trim
+    )(newRoomName);
 
-    if (newRoomName.trim().length > 1) {
+    if (!isNewRoomNameEmpty) {
       onCreateChatRoom({
         name: newRoomName,
         owner: username,
@@ -56,7 +61,10 @@ export default class CreateRoomModalScreen extends React.Component<
     nextProps: CreateRoomModalScreenProps,
     prevState: CreateRoomModalScreenState
   ) {
-    if (this.props.chatrooms.length < nextProps.chatrooms.length) {
+    const prevMessagesN = R.length(R.keys(this.props.chatrooms));
+    const nextMessagesN = R.length(R.keys(nextProps.chatrooms));
+
+    if (R.gt(nextMessagesN, prevMessagesN)) {
       this.props.navigation.goBack();
     }
   }
