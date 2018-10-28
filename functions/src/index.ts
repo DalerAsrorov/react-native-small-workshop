@@ -21,7 +21,8 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
     .add({
       name,
       owner,
-      themeColor
+      themeColor,
+      created: admin.firestore.FieldValue.serverTimestamp()
     })
     .then(() => {
       response.status(201).send({ success: true });
@@ -48,7 +49,8 @@ export const addMessageToChatRoom = functions.https.onRequest(
     roomMessagesRef
       .add({
         text,
-        from
+        from,
+        created: admin.firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
         response.status(201).send({ success: true });
@@ -92,6 +94,7 @@ export const getChatRoomMessages = functions.https.onRequest(
       .collection('rooms')
       .doc(roomId)
       .collection('messages')
+      .orderBy('created', 'asc')
       .get();
 
     chatRoomMessages
