@@ -65,7 +65,10 @@ export const addMessageToChatRoom = functions.https.onRequest(
  * Retrieve chatrooms from the Firestore
  */
 export const getChatRooms = functions.https.onRequest((request, response) => {
-  const rooms = db.collection('rooms').get();
+  const rooms = db
+    .collection('rooms')
+    .orderBy('created', 'desc')
+    .get();
 
   rooms
     .then(querySnapshot => {
