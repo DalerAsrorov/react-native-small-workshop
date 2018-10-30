@@ -4,6 +4,7 @@ import {
   ADD_MY_NEW_CHATROOM_TO_QUEUE,
   RECEIVE_ALL_CHATROOMS,
   REQUEST_SAVE_NEW_MESSAGE,
+  REQUEST_ALL_CHATROOM_MESSAGES,
   RECEIVE_ALL_CHATROOM_MESSAGES,
   ADD_NEW_CHATROOM_MESSAGE
 } from '../actions';
@@ -12,6 +13,7 @@ const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
   chatrooms: {},
   isCreatingChatRoom: false,
   hasReceivedChatRooms: false,
+  hasReceivedAllChatRoomMessages: false,
   isSavingNewMessage: false
 };
 
@@ -49,13 +51,19 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
         ...state,
         isSavingNewMessage: action.payload
       };
+    case REQUEST_ALL_CHATROOM_MESSAGES:
+      return {
+        ...state,
+        hasReceivedAllChatRoomMessages: action.payload
+      };
     case RECEIVE_ALL_CHATROOM_MESSAGES:
       chatRoomMap = clone(state.chatrooms);
       chatRoomMap[action.payload.roomId].messages = action.payload.messages;
 
       return {
         ...state,
-        chatrooms: chatRoomMap
+        chatrooms: chatRoomMap,
+        hasReceivedAllChatRoomMessages: true
       };
     case ADD_NEW_CHATROOM_MESSAGE:
       roomId = action.payload.roomId;

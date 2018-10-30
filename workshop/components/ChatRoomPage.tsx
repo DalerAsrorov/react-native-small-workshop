@@ -13,15 +13,20 @@ import { NavigationParams } from 'react-navigation';
 import { isEmpty } from 'ramda';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 import { generateTempId } from '../api/utils';
+import Loader from './Loader';
 import { CustomInput as TextArea } from './CustomInputs';
 
 interface ChatRoomPageProps {
   chatrooms: ChatRoomMap;
   isSavingNewMessage: ChatRoomsState['isSavingNewMessage'];
+  hasReceivedMessages: ChatRoomsState['hasReceivedAllChatRoomMessages'];
   navigation: NavigationParams;
   username: User['username'];
   onSaveNewMessage: (message: MessagePayload) => void;
   onFetchChatRoomMessages: (roomId: MessagePayload['roomId']) => any;
+  onRequestChatRoomMessages: (
+    hasReceived: ChatRoomsState['hasReceivedAllChatRoomMessages']
+  ) => any;
   onAddNewMessage: (
     message: MessagePayload,
     roomId: MessagePayload['roomId']
@@ -128,6 +133,8 @@ export default class ChatRoomPage extends React.PureComponent<
   };
 
   componentDidMount() {
+    const { onRequestChatRoomMessages } = this.props;
+    onRequestChatRoomMessages(false);
     this.fetchChatRoomMessages();
 
     this.messagePollInterval = setInterval(() => {
@@ -154,37 +161,39 @@ export default class ChatRoomPage extends React.PureComponent<
 
   render() {
     const { roomId } = this.state;
-    const { chatrooms } = this.props;
+    const { chatrooms, hasReceivedMessages } = this.props;
 
     return (
       <View style={styles.pageContainer}>
-        <View style={styles.messageListContainer}>
-          <ScrollView
-            ref={ref => (this.scrollView = ref)}
-            onContentSizeChange={(contentWidth, contentHeight) =>
-              this.scrollView.scrollToEnd({ animated: true })
-            }
-          >
-            <MessageList roomId={roomId} chatrooms={chatrooms} />
-          </ScrollView>
-        </View>
-        <View style={styles.messageBoxContainer}>
-          <TextArea
-            placeholder="Type message..."
-            value={this.state.currentMessage}
-            style={styles.messageInput}
-            multiline={true}
-            numberOfLines={MAX_NUMBER_OF_LINES}
-            onChangeText={this.handleMessageInput}
-          />
-          <Icon
-            onPress={this.handleSaveMessage}
-            color={PRIMARY_COLOR}
-            name="message"
-            raised
-            reverse
-          />
-        </View>
+        <Loader isContentReady={hasReceivedMessages} color={PRIMARY_COLOR}>
+          <View style={styles.messageListContainer}>
+            <ScrollView
+              ref={ref => (this.scrollView = ref)}
+              onContentSizeChange={(contentWidth, contentHeight) =>
+                this.scrollView.scrollToEnd({ animated: true })
+              }
+            >
+              <MessageList roomId={roomId} chatrooms={chatrooms} />
+            </ScrollView>
+          </View>
+          <View style={styles.messageBoxContainer}>
+            <TextArea
+              placeholder="Type message..."
+              value={this.state.currentMessage}
+              style={styles.messageInput}
+              multiline={true}
+              numberOfLines={MAX_NUMBER_OF_LINES}
+              onChangeText={this.handleMessageInput}
+            />
+            <Icon
+              onPress={this.handleSaveMessage}
+              color={PRIMARY_COLOR}
+              name="message"
+              raised
+              reverse
+            />
+          </View>
+        </Loader>
       </View>
     );
   }

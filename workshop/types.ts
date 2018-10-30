@@ -6,6 +6,7 @@ interface User {
 interface ChatRoomsState {
   chatrooms: ChatRoomMap;
   isCreatingChatRoom: boolean;
+  hasReceivedAllChatRoomMessages: boolean;
   hasReceivedChatRooms: boolean;
   isSavingNewMessage: boolean;
 }
