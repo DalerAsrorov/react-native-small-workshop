@@ -5,7 +5,6 @@ import ChatRoomsFeed from '../components/ChatRoomsFeed';
 const mapStateToProps = (state: AppState) => ({
   hasReceivedChatRooms: state.chatrooms.hasReceivedChatRooms,
   chatrooms: state.chatrooms.chatrooms,
-  isLoggedIn: state.user.isLoggedIn,
   username: state.user.username
 });
 

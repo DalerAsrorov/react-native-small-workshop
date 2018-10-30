@@ -71,6 +71,12 @@ export const addNewChatRoomMessage = (
   }
 });
 
+export const REQUEST_ALL_CHATROOM_MESSAGES = 'REQUEST_ALL_CHATROOM_MESSAGES';
+export const requestAllChatRoomMessages = (hasReceivedMessages: boolean) => ({
+  type: REQUEST_ALL_CHATROOM_MESSAGES,
+  payload: hasReceivedMessages
+});
+
 export const RECEIVE_ALL_CHATROOM_MESSAGES = 'RECEIVE_ALL_CHATROOM_MESSAGES';
 export const receiveAllChatroomMessages = (
   messages: Array<MessagePayload>,

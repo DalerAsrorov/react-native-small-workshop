@@ -11,6 +11,7 @@ import {
 import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
+import Loader from './Loader';
 import { isEmpty, values } from 'ramda';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 
@@ -117,28 +118,30 @@ export default class ChatRoomsFeed extends React.PureComponent<
 
     return (
       <View style={styles.container}>
-        <SegmentedControl
-          values={['Public', 'My']}
-          selectedIndex={segmentIndex}
-          onChange={this.handleSegmenIndextChange}
-          tintColor={PRIMARY_COLOR}
-        />
-        <ChatFeedList
-          onChatRoomClick={this.handleChatRoomClick}
-          isShown={shouldShowChatRooms}
-          chatrooms={chatrooms}
-          shouldShowMyChatRoomsOnly={shouldShowMyChatRoomsOnly}
-          currentUser={username}
-        />
-        <Icon
-          size={30}
-          onPress={this.handleNavigateToCreateModal}
-          containerStyle={styles.addIconStyle}
-          color={PRIMARY_COLOR}
-          name="add"
-          raised
-          reverse
-        />
+        <Loader isContentReady={hasReceivedChatRooms} color={PRIMARY_COLOR}>
+          <SegmentedControl
+            values={['Public', 'My']}
+            selectedIndex={segmentIndex}
+            onChange={this.handleSegmenIndextChange}
+            tintColor={PRIMARY_COLOR}
+          />
+          <ChatFeedList
+            onChatRoomClick={this.handleChatRoomClick}
+            isShown={shouldShowChatRooms}
+            chatrooms={chatrooms}
+            shouldShowMyChatRoomsOnly={shouldShowMyChatRoomsOnly}
+            currentUser={username}
+          />
+          <Icon
+            size={30}
+            onPress={this.handleNavigateToCreateModal}
+            containerStyle={styles.addIconStyle}
+            color={PRIMARY_COLOR}
+            name="add"
+            raised
+            reverse
+          />
+        </Loader>
       </View>
     );
   }

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import ChatRoomPage from '../components/ChatRoomPage';
 import {
   saveNewMessage,
+  requestAllChatRoomMessages,
   fetchAllChatRoomMessages,
   addNewChatRoomMessage
 } from '../actions';
@@ -9,7 +10,8 @@ import {
 const mapStateToProps = (state: AppState) => ({
   username: state.user.username,
   isSavingMessage: state.chatrooms.isSavingNewMessage,
-  chatrooms: state.chatrooms.chatrooms
+  chatrooms: state.chatrooms.chatrooms,
+  hasReceivedMessages: state.chatrooms.hasReceivedAllChatRoomMessages
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -21,6 +23,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
   onAddNewMessage(message: MessagePayload, roomId: MessagePayload['roomId']) {
     dispatch(addNewChatRoomMessage(message, roomId));
+  },
+  onRequestChatRoomMessages(hasReceivedMessages: boolean) {
+    dispatch(requestAllChatRoomMessages(hasReceivedMessages));
   }
 });
 
