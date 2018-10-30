@@ -26,6 +26,7 @@ export const createNewChatroom = ({
 
   return createChatRoom({ name, owner, themeColor }).then(snapshot => {
     dispatch(addMyNewChatroomToQueue({ name, owner, themeColor }));
+    dispatch(fetchAllChatRooms());
     dispatch(requestCreateNewChatRoom(false));
   });
 };

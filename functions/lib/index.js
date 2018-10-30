@@ -27,7 +27,7 @@ exports.createChatRoom = functions.https.onRequest((request, response) => {
     });
 });
 /**
- *
+ * Add a new message to the chatroom's message queue
  */
 exports.addMessageToChatRoom = functions.https.onRequest((request, response) => {
     const { body: { roomId, from, text } } = request;
@@ -52,7 +52,10 @@ exports.addMessageToChatRoom = functions.https.onRequest((request, response) => 
  * Retrieve chatrooms from the Firestore
  */
 exports.getChatRooms = functions.https.onRequest((request, response) => {
-    const rooms = db.collection('rooms').get();
+    const rooms = db
+        .collection('rooms')
+        .orderBy('created', 'desc')
+        .get();
     rooms
         .then(querySnapshot => {
         const roomsData = querySnapshot.docs.map(docSnapshot => (Object.assign({ id: docSnapshot.id }, docSnapshot.data())));
