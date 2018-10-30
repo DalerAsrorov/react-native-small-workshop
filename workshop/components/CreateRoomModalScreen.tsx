@@ -4,10 +4,12 @@ import { ColorPicker } from 'react-native-color-picker';
 import * as R from 'ramda';
 import { CustomInput, CustomButton } from './CustomInputs';
 import { PRIMARY_COLOR } from '../colors';
+import Loader from './Loader';
 
 interface CreateRoomModalScreenProps {
   username: User['username'];
   chatrooms: ChatRoomMap;
+  isCreatingChatRoom: boolean;
   onCreateChatRoom: (chatRoom: ChatRoomProps) => void;
   navigation: {
     goBack: () => void;
@@ -70,28 +72,32 @@ export default class CreateRoomModalScreen extends React.Component<
   }
 
   render() {
+    const { isCreatingChatRoom } = this.props;
+
     return (
       <View style={styles.container}>
-        <View style={styles.fieldWrapper}>
-          <CustomInput
-            onChangeText={this.handleRoomNameChange}
-            autoCapitalize="none"
-            autoCorrect={false}
-            placeholder="New Chatroom Name"
+        <Loader isContentReady={!isCreatingChatRoom}>
+          <View style={styles.fieldWrapper}>
+            <CustomInput
+              onChangeText={this.handleRoomNameChange}
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="New Chatroom Name"
+            />
+          </View>
+          <ColorPicker
+            style={{ flex: 3 }}
+            hideSliders={true}
+            onColorSelected={this.handleColorSelect}
           />
-        </View>
-        <ColorPicker
-          style={{ flex: 3 }}
-          hideSliders={true}
-          onColorSelected={this.handleColorSelect}
-        />
-        <View style={styles.fieldWrapper}>
-          <CustomButton
-            title="Create Chatroom"
-            onPress={this.handleRoomCreate}
-            color="primary"
-          />
-        </View>
+          <View style={styles.fieldWrapper}>
+            <CustomButton
+              title="Create Chatroom"
+              onPress={this.handleRoomCreate}
+              color="primary"
+            />
+          </View>
+        </Loader>
       </View>
     );
   }

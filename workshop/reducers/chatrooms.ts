@@ -1,7 +1,6 @@
 import { clone } from 'ramda';
 import {
   REQUEST_CREATE_NEW_CHATROOM,
-  ADD_MY_NEW_CHATROOM_TO_QUEUE,
   RECEIVE_ALL_CHATROOMS,
   REQUEST_SAVE_NEW_MESSAGE,
   REQUEST_ALL_CHATROOM_MESSAGES,
@@ -27,18 +26,6 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
       return {
         ...state,
         isCreatingChatRoom: action.payload
-      };
-    case ADD_MY_NEW_CHATROOM_TO_QUEUE:
-      const newChatRooom = action.payload;
-
-      chatRoomMap = clone(state.chatrooms);
-      chatRoomMap[newChatRooom.id] = {
-        ...newChatRooom
-      };
-
-      return {
-        ...state,
-        chatrooms: chatRoomMap
       };
     case RECEIVE_ALL_CHATROOMS:
       return {

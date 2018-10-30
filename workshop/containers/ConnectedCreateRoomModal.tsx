@@ -4,7 +4,8 @@ import CreateRoomModalScreen from '../components/CreateRoomModalScreen';
 
 const mapStateToProps = (state: AppState) => ({
   chatrooms: state.chatrooms.chatrooms,
-  username: state.user.username
+  username: state.user.username,
+  isCreatingChatRoom: state.chatrooms.isCreatingChatRoom
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
