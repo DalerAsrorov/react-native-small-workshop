@@ -14,11 +14,16 @@ import ConnectedChatRoomPage from './containers/ConnectedChatRoomPage';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-const MaterialTopNavigator = createMaterialTopTabNavigator({
-  Home: {
-    screen: ConnectedChatRoomsFeed
+const MaterialTopNavigator = createMaterialTopTabNavigator(
+  {
+    Home: {
+      screen: ConnectedChatRoomsFeed
+    }
+  },
+  {
+    tabBarPosition: 'bottom'
   }
-});
+);
 
 const RootStackNavigator = createStackNavigator(
   {
