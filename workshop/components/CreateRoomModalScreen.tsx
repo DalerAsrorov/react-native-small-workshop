@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, TextInput, View, StyleSheet } from 'react-native';
 import { ColorPicker } from 'react-native-color-picker';
-import * as R from 'ramda';
+import { compose, isEmpty, trim } from 'ramda';
 import { CustomInput, CustomButton } from './CustomInputs';
 import { PRIMARY_COLOR } from '../colors';
 import Loader from './Loader';
@@ -45,9 +45,9 @@ export default class CreateRoomModalScreen extends React.Component<
   private handleRoomCreate = () => {
     const { username, onCreateChatRoom } = this.props;
     const { newRoomName, themeColor } = this.state;
-    const isNewRoomNameEmpty = R.compose(
-      R.isEmpty,
-      R.trim
+    const isNewRoomNameEmpty = compose(
+      isEmpty,
+      trim
     )(newRoomName);
 
     if (!isNewRoomNameEmpty) {
@@ -59,14 +59,10 @@ export default class CreateRoomModalScreen extends React.Component<
     }
   };
 
-  componentWillReceiveProps(
-    nextProps: CreateRoomModalScreenProps,
-    prevState: CreateRoomModalScreenState
-  ) {
-    const prevMessagesN = R.length(R.keys(this.props.chatrooms));
-    const nextMessagesN = R.length(R.keys(nextProps.chatrooms));
-
-    if (R.gt(nextMessagesN, prevMessagesN)) {
+  componentWillReceiveProps(nextProps: CreateRoomModalScreenProps) {
+    // After chatroom creation request is complete
+    // return back to the chatrooms feed page
+    if (this.props.isCreatingChatRoom && !nextProps.isCreatingChatRoom) {
       this.props.navigation.goBack();
     }
   }
