@@ -15,6 +15,7 @@ import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 import { generateTempId } from '../api/utils';
 import Loader from './Loader';
 import { CustomInput as TextArea } from './CustomInputs';
+import { EmptyStateText } from './common';
 
 const MAX_NUMBER_OF_LINES = 4;
 const MESSAGES_POLLING_INTERVAL = 5000;
@@ -49,9 +50,7 @@ const MessageList = ({
   roomId: MessagePayload['roomId'];
 }) => {
   const messages = roomId ? chatrooms[roomId].messages : null;
-  let messageList = null;
-
-  console.log({ messages });
+  let messageList = <EmptyStateText text="Be first to add new message!" />;
 
   if (messages && !isEmpty(messages)) {
     messageList = (
