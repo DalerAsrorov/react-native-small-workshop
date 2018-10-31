@@ -1,10 +1,12 @@
-import React from 'react';
-import { Button, TextInput, View, StyleSheet } from 'react-native';
+import React, { Props } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { ColorPicker, fromHsv } from 'react-native-color-picker';
 import { compose, isEmpty, trim } from 'ramda';
 import { CustomInput, CustomButton } from './CustomInputs';
 import { PRIMARY_COLOR } from '../colors';
 import Loader from './Loader';
+import { NavigationParams } from 'react-navigation';
 
 interface CreateRoomModalScreenProps {
   username: User['username'];
@@ -29,6 +31,22 @@ export default class CreateRoomModalScreen extends React.Component<
     themeColorHsv: {},
     newRoomName: ''
   };
+
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationParams;
+  }) => ({
+    headerTitle: 'Create New Chatroom',
+    headerLeft: (
+      <Icon
+        onPress={() => navigation.navigate('Home')}
+        name="home"
+        size={35}
+        color={PRIMARY_COLOR}
+      />
+    )
+  });
 
   private handleRoomNameChange = (text: string) => {
     this.setState({

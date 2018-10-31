@@ -16,6 +16,9 @@ import { generateTempId } from '../api/utils';
 import Loader from './Loader';
 import { CustomInput as TextArea } from './CustomInputs';
 
+const MAX_NUMBER_OF_LINES = 4;
+const MESSAGES_POLLING_INTERVAL = 5000;
+
 interface ChatRoomPageProps {
   chatrooms: ChatRoomMap;
   isSavingNewMessage: ChatRoomsState['isSavingNewMessage'];
@@ -37,9 +40,6 @@ interface ChatRoomPageState {
   currentMessage: MessagePayload['text'];
   roomId: MessagePayload['roomId'];
 }
-
-const MAX_NUMBER_OF_LINES = 4;
-const MESSAGES_POLLING_INTERVAL = 5000;
 
 const MessageList = ({
   chatrooms,
@@ -80,6 +80,40 @@ export default class ChatRoomPage extends React.PureComponent<
 > {
   private messagePollInterval: any;
   private scrollView: any;
+
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationParams;
+  }) => {
+    const {
+      state: {
+        params: { chatroom }
+      }
+    } = navigation;
+
+    return {
+      headerTitle: (
+        <Text
+          style={{
+            color: chatroom.themeColor,
+            fontSize: 18,
+            fontWeight: '700'
+          }}
+        >
+          {chatroom.name}
+        </Text>
+      ),
+      headerLeft: (
+        <Icon
+          onPress={() => navigation.navigate('Home')}
+          name="home"
+          size={35}
+          color={PRIMARY_COLOR}
+        />
+      )
+    };
+  };
 
   constructor(props: ChatRoomPageProps) {
     super(props);
@@ -146,7 +180,9 @@ export default class ChatRoomPage extends React.PureComponent<
     const { navigation } = this.props;
     const {
       state: {
-        params: { chatRoomId: roomId }
+        params: {
+          chatroom: { id: roomId }
+        }
       }
     } = navigation;
 
