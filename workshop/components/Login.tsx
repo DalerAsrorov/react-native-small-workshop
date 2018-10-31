@@ -21,7 +21,7 @@ export default class Login extends React.PureComponent<LoginProps, {}> {
     const { onLogin, navigation } = this.props;
 
     onLogin();
-    navigation.replace('MainMenu');
+    navigation.replace('Home');
   };
 
   render() {

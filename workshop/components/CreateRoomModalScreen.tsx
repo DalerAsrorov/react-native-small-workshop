@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, TextInput, View, StyleSheet } from 'react-native';
-import { ColorPicker } from 'react-native-color-picker';
+import { ColorPicker, fromHsv } from 'react-native-color-picker';
 import { compose, isEmpty, trim } from 'ramda';
 import { CustomInput, CustomButton } from './CustomInputs';
 import { PRIMARY_COLOR } from '../colors';
@@ -17,7 +17,7 @@ interface CreateRoomModalScreenProps {
 }
 
 interface CreateRoomModalScreenState {
-  themeColor: string;
+  themeColorHsv: object;
   newRoomName: string;
 }
 
@@ -26,7 +26,7 @@ export default class CreateRoomModalScreen extends React.Component<
   CreateRoomModalScreenState
 > {
   state = {
-    themeColor: PRIMARY_COLOR,
+    themeColorHsv: {},
     newRoomName: ''
   };
 
@@ -36,21 +36,25 @@ export default class CreateRoomModalScreen extends React.Component<
     });
   };
 
-  private handleColorSelect = (colorHex: string) => {
+  private handleColorChange = (themeColorHsv: object) => {
     this.setState({
-      themeColor: colorHex
+      themeColorHsv
     });
   };
 
   private handleRoomCreate = () => {
     const { username, onCreateChatRoom } = this.props;
-    const { newRoomName, themeColor } = this.state;
+    const { newRoomName, themeColorHsv } = this.state;
     const isNewRoomNameEmpty = compose(
       isEmpty,
       trim
     )(newRoomName);
 
     if (!isNewRoomNameEmpty) {
+      const themeColor = !isEmpty(themeColorHsv)
+        ? fromHsv(themeColorHsv)
+        : PRIMARY_COLOR;
+
       onCreateChatRoom({
         name: newRoomName,
         owner: username,
@@ -84,7 +88,7 @@ export default class CreateRoomModalScreen extends React.Component<
           <ColorPicker
             style={{ flex: 3 }}
             hideSliders={true}
-            onColorSelected={this.handleColorSelect}
+            onColorChange={this.handleColorChange}
           />
           <View style={styles.fieldWrapper}>
             <CustomButton
