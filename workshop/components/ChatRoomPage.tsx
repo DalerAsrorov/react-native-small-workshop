@@ -11,8 +11,8 @@ import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { isEmpty } from 'ramda';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
-import { generateTempId } from '../api/utils';
+import { PRIMARY_COLOR, DARK_GREY_COLOR } from '../colors';
+import { generateTempId, formatDate } from '../api/utils';
 import Loader from './Loader';
 import { CustomInput as TextArea } from './CustomInputs';
 import { EmptyStateText } from './common';
@@ -57,6 +57,11 @@ const MessageList = ({
       <List>
         {messages.map((message: MessagePayload) => (
           <ListItem
+            rightIcon={
+              <Text style={{ color: DARK_GREY_COLOR, fontSize: 12 }}>
+                {formatDate(message.created)}
+              </Text>
+            }
             key={message.id}
             title={message.from}
             subtitle={

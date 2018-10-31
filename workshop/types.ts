@@ -30,6 +30,7 @@ interface ChatRoomProps {
 
 interface MessagePayload {
   id?: string;
+  created: string;
   from: User['username'];
   roomId: ChatRoomProps['id'];
   text: string;
