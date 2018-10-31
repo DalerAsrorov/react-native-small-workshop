@@ -13,6 +13,7 @@ import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import Loader from './Loader';
+import { EmptyStateText } from './common';
 import { isEmpty, values } from 'ramda';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
 
@@ -41,11 +42,7 @@ const ChatFeedList = ({
   chatrooms: ChatRoomMap;
   onChatRoomClick: (chatroom: ChatRoomProps) => void;
 }) => {
-  let chatroomsList = (
-    <View style={styles.chatRoomEmptyState}>
-      <Text>No chatrooms added yet.</Text>
-    </View>
-  );
+  let chatroomsList = <EmptyStateText text="No chatrooms added yet." />;
 
   if (isShown) {
     const allChatRooms = values(chatrooms);
@@ -157,12 +154,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20
-  },
-  chatRoomEmptyState: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center'
   },
   container: {
     flex: 1,

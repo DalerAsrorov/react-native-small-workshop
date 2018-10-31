@@ -19,10 +19,10 @@ export const createChatRoom = functions.https.onRequest((request, response) => {
 
   roomRef
     .add({
+      created: admin.firestore.FieldValue.serverTimestamp(),
       name,
       owner,
-      themeColor,
-      created: admin.firestore.FieldValue.serverTimestamp()
+      themeColor
     })
     .then(() => {
       response.status(201).send({ success: true });
@@ -48,9 +48,9 @@ export const addMessageToChatRoom = functions.https.onRequest(
 
     roomMessagesRef
       .add({
+        created: admin.firestore.FieldValue.serverTimestamp(),
         text,
-        from,
-        created: admin.firestore.FieldValue.serverTimestamp()
+        from
       })
       .then(() => {
         response.status(201).send({ success: true });
@@ -103,8 +103,9 @@ export const getChatRoomMessages = functions.https.onRequest(
     chatRoomMessages
       .then(querySnapshot => {
         const messages = querySnapshot.docs.map(messageSnapshot => ({
+          ...messageSnapshot.data(),
           id: messageSnapshot.id,
-          ...messageSnapshot.data()
+          created: messageSnapshot.data().created.toDate()
         }));
 
         response.status(201).send(messages);

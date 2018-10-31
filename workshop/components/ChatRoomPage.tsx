@@ -11,10 +11,11 @@ import { List, ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
 import { isEmpty } from 'ramda';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
-import { generateTempId } from '../api/utils';
+import { PRIMARY_COLOR, DARK_GREY_COLOR } from '../colors';
+import { generateTempId, formatDate } from '../api/utils';
 import Loader from './Loader';
 import { CustomInput as TextArea } from './CustomInputs';
+import { EmptyStateText } from './common';
 
 const MAX_NUMBER_OF_LINES = 4;
 const MESSAGES_POLLING_INTERVAL = 5000;
@@ -49,15 +50,18 @@ const MessageList = ({
   roomId: MessagePayload['roomId'];
 }) => {
   const messages = roomId ? chatrooms[roomId].messages : null;
-  let messageList = null;
-
-  console.log({ messages });
+  let messageList = <EmptyStateText text="Be first to add new message!" />;
 
   if (messages && !isEmpty(messages)) {
     messageList = (
       <List>
         {messages.map((message: MessagePayload) => (
           <ListItem
+            rightIcon={
+              <Text style={{ color: DARK_GREY_COLOR, fontSize: 12 }}>
+                {formatDate(message.created)}
+              </Text>
+            }
             key={message.id}
             title={message.from}
             subtitle={
@@ -166,6 +170,10 @@ export default class ChatRoomPage extends React.PureComponent<
     }
   };
 
+  private scrollToBottom = () => {
+    this.scrollView.scrollToEnd({ animated: true });
+  };
+
   componentDidMount() {
     const { onRequestChatRoomMessages } = this.props;
     onRequestChatRoomMessages(false);
@@ -205,9 +213,7 @@ export default class ChatRoomPage extends React.PureComponent<
           <View style={styles.messageListContainer}>
             <ScrollView
               ref={ref => (this.scrollView = ref)}
-              onContentSizeChange={(contentWidth, contentHeight) =>
-                this.scrollView.scrollToEnd({ animated: true })
-              }
+              onContentSizeChange={this.scrollToBottom}
             >
               <MessageList roomId={roomId} chatrooms={chatrooms} />
             </ScrollView>
