@@ -4,11 +4,10 @@ import {
   FlatList,
   StyleSheet,
   View,
-  Text,
   NativeSyntheticEvent,
-  NativeTouchEvent,
   NativeSegmentedControlIOSChangeEvent
 } from 'react-native';
+import SwipeOut from 'react-native-swipeout';
 import { ListItem } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { NavigationParams } from 'react-navigation';
@@ -29,7 +28,23 @@ interface ChatRoomsFeedState {
   segmentIndex: number;
 }
 
+const swipeButtons = ({
+  onDelete,
+  roomId
+}: {
+  onDelete: (id: ChatRoomProps['id']) => void;
+  roomId: ChatRoomProps['id'];
+}) => [
+  {
+    text: 'Delete',
+    color: SECONDARY_COLOR,
+    backgroundColor: 'red',
+    onPress: () => onDelete(roomId)
+  }
+];
+
 const ChatFeedList = ({
+  onRoomDelete,
   onChatRoomClick,
   shouldShowMyChatRoomsOnly,
   currentUser,
@@ -41,6 +56,7 @@ const ChatFeedList = ({
   currentUser: ChatRoomProps['owner'];
   chatrooms: ChatRoomMap;
   onChatRoomClick: (chatroom: ChatRoomProps) => void;
+  onRoomDelete: (roomId: ChatRoomProps['id']) => void;
 }) => {
   let chatroomsList = <EmptyStateText text="No chatrooms added yet." />;
 
@@ -54,20 +70,28 @@ const ChatFeedList = ({
       <FlatList
         data={shownChatRooms}
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
-          <ListItem
-            key={chatroom.id}
-            onPress={() => onChatRoomClick(chatroom)}
-            title={chatroom.name}
-            subtitle={`Created by ${chatroom.owner}`}
-            leftIcon={
-              <Icon
-                key={chatroom.id}
-                containerStyle={styles.iconContainerStyle}
-                name="chat"
-                color={chatroom.themeColor}
-              />
-            }
-          />
+          <SwipeOut
+            right={swipeButtons({
+              onDelete: onRoomDelete,
+              roomId: chatroom.id
+            })}
+          >
+            <ListItem
+              containerStyle={styles.listItem}
+              key={chatroom.id}
+              onPress={() => onChatRoomClick(chatroom)}
+              title={chatroom.name}
+              subtitle={`Created by ${chatroom.owner}`}
+              leftIcon={
+                <Icon
+                  key={chatroom.id}
+                  containerStyle={styles.iconContainerStyle}
+                  name="chat"
+                  color={chatroom.themeColor}
+                />
+              }
+            />
+          </SwipeOut>
         )}
       />
     );
@@ -106,6 +130,12 @@ export default class ChatRoomsFeed extends React.PureComponent<
     });
   };
 
+  private handleChatRoomDelete = (roomId: ChatRoomProps['id']) => {
+    console.log('Delete room: ', roomId);
+
+    // TODO: redux actions with api cals to delete the room
+  };
+
   componentDidMount() {
     const { onFetchAllChatRooms } = this.props;
 
@@ -128,6 +158,7 @@ export default class ChatRoomsFeed extends React.PureComponent<
             tintColor={PRIMARY_COLOR}
           />
           <ChatFeedList
+            onRoomDelete={this.handleChatRoomDelete}
             onChatRoomClick={this.handleChatRoomClick}
             isShown={shouldShowChatRooms}
             chatrooms={chatrooms}
@@ -162,5 +193,8 @@ const styles = StyleSheet.create({
   },
   iconContainerStyle: {
     paddingRight: 10
+  },
+  listItem: {
+    backgroundColor: SECONDARY_COLOR
   }
 });
