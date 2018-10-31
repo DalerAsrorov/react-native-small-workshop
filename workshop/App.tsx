@@ -2,10 +2,7 @@ import React from 'react';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import {
-  createStackNavigator,
-  createMaterialTopTabNavigator
-} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import rootReducer from './reducers';
 import ConnectedCreateRoomModalScreen from './containers/ConnectedCreateRoomModal';
 import ConnectedLogin from './containers/ConnectedLogin';
@@ -13,17 +10,6 @@ import ConnectedChatRoomsFeed from './containers/ConnectedChatRoomsFeed';
 import ConnectedChatRoomPage from './containers/ConnectedChatRoomPage';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
-
-const MaterialTopNavigator = createMaterialTopTabNavigator(
-  {
-    Home: {
-      screen: ConnectedChatRoomsFeed
-    }
-  },
-  {
-    tabBarPosition: 'bottom'
-  }
-);
 
 const RootStackNavigator = createStackNavigator(
   {
@@ -33,8 +19,8 @@ const RootStackNavigator = createStackNavigator(
     ChatRoomPage: {
       screen: ConnectedChatRoomPage
     },
-    MainMenu: {
-      screen: MaterialTopNavigator
+    Home: {
+      screen: ConnectedChatRoomsFeed
     },
     CreateRoomModal: {
       screen: ConnectedCreateRoomModalScreen
