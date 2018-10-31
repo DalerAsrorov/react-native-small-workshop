@@ -166,6 +166,10 @@ export default class ChatRoomPage extends React.PureComponent<
     }
   };
 
+  private scrollToBottom = () => {
+    this.scrollView.scrollToEnd({ animated: true });
+  };
+
   componentDidMount() {
     const { onRequestChatRoomMessages } = this.props;
     onRequestChatRoomMessages(false);
@@ -205,9 +209,7 @@ export default class ChatRoomPage extends React.PureComponent<
           <View style={styles.messageListContainer}>
             <ScrollView
               ref={ref => (this.scrollView = ref)}
-              onContentSizeChange={(contentWidth, contentHeight) =>
-                this.scrollView.scrollToEnd({ animated: true })
-              }
+              onContentSizeChange={this.scrollToBottom}
             >
               <MessageList roomId={roomId} chatrooms={chatrooms} />
             </ScrollView>
