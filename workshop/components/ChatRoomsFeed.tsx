@@ -14,7 +14,7 @@ import { NavigationParams } from 'react-navigation';
 import Loader from './Loader';
 import { EmptyStateText } from './common';
 import { isEmpty, values } from 'ramda';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, DARK_GREY_COLOR } from '../colors';
 
 interface ChatRoomsFeedProps {
   username: User['username'];
@@ -89,7 +89,7 @@ const ChatFeedList = ({
                 <Icon
                   key={chatroom.id}
                   containerStyle={styles.iconContainerStyle}
-                  name="chat"
+                  name="message"
                   color={chatroom.themeColor}
                 />
               }
@@ -110,6 +110,26 @@ export default class ChatRoomsFeed extends React.PureComponent<
   state = {
     segmentIndex: 0
   };
+
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationParams;
+  }) => ({
+    headerTitle: (
+      <Icon name="globe" type="font-awesome" size={35} color={PRIMARY_COLOR} />
+    ),
+    headerLeft: (
+      <Icon
+        containerStyle={styles.logOut}
+        onPress={() => navigation.replace('Login')}
+        type="font-awesome"
+        name="power-off"
+        size={26}
+        color={DARK_GREY_COLOR}
+      />
+    )
+  });
 
   private handleChatRoomClick = (chatroom: ChatRoomProps) => {
     const { navigate } = this.props.navigation;
@@ -197,5 +217,8 @@ const styles = StyleSheet.create({
   },
   listItem: {
     backgroundColor: SECONDARY_COLOR
+  },
+  logOut: {
+    margin: 8
   }
 });
