@@ -69,6 +69,7 @@ const ChatFeedList = ({
 
     chatroomsList = (
       <FlatList
+        keyExtractor={(chatroom: ChatRoomProps) => chatroom.id}
         data={shownChatRooms}
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
           <SwipeOut
@@ -81,7 +82,6 @@ const ChatFeedList = ({
           >
             <ListItem
               containerStyle={styles.listItem}
-              key={chatroom.id}
               onPress={() => onChatRoomClick(chatroom)}
               title={chatroom.name}
               subtitle={`Created by ${chatroom.owner}`}
