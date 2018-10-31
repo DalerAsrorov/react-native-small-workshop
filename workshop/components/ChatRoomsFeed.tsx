@@ -77,6 +77,7 @@ const ChatFeedList = ({
               onDelete: onRoomDelete,
               roomId: chatroom.id
             })}
+            disabled={chatroom.owner !== currentUser}
           >
             <ListItem
               containerStyle={styles.listItem}
