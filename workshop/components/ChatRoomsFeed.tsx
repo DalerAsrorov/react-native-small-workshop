@@ -72,6 +72,7 @@ const ChatFeedList = ({
         data={shownChatRooms}
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
           <SwipeOut
+            autoClose={true}
             right={swipeButtons({
               onDelete: onRoomDelete,
               roomId: chatroom.id
