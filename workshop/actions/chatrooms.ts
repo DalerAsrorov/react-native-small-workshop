@@ -2,7 +2,8 @@ import {
   createChatRoom,
   getAllChatRooms,
   fetchAllChatRoomMessages as fetchAllChatRoomMessagesApi,
-  saveNewMessage as saveNewMessageApi
+  saveNewMessage as saveNewMessageApi,
+  deleteChatRoom as deleteChatRoomApi
 } from '../api';
 
 export const REQUEST_CREATE_NEW_CHATROOM = 'REQUEST_CREATE_NEW_CHATROOM';
@@ -90,4 +91,13 @@ export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
       dispatch(receiveAllChatroomMessages(messages, roomId));
     }
   );
+};
+
+export const deleteChatRoom = (roomId: ChatRoomProps['id']) => (
+  dispatch: any
+) => {
+  return deleteChatRoomApi(roomId).then(() => {
+    // TODO maybe set a boolean value on success
+    console.log('Deleted successfully', roomId);
+  });
 };

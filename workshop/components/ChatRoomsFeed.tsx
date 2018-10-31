@@ -22,6 +22,7 @@ interface ChatRoomsFeedProps {
   chatrooms: ChatRoomMap;
   hasReceivedChatRooms: boolean;
   onFetchAllChatRooms: () => void;
+  onRequestDeleteChatRoom: (roomId: ChatRoomProps['id']) => void;
 }
 
 interface ChatRoomsFeedState {
@@ -123,17 +124,15 @@ export default class ChatRoomsFeed extends React.PureComponent<
   private handleSegmenIndextChange = (
     event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>
   ) => {
-    console.log({ event });
-
     this.setState({
       segmentIndex: event.nativeEvent.selectedSegmentIndex
     });
   };
 
   private handleChatRoomDelete = (roomId: ChatRoomProps['id']) => {
-    console.log('Delete room: ', roomId);
+    const { onRequestDeleteChatRoom } = this.props;
 
-    // TODO: redux actions with api cals to delete the room
+    onRequestDeleteChatRoom(roomId);
   };
 
   componentDidMount() {

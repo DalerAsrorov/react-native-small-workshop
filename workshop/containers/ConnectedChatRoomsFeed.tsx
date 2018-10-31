@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { createNewChatroom, fetchAllChatRooms } from '../actions';
+import {
+  createNewChatroom,
+  fetchAllChatRooms,
+  deleteChatRoom
+} from '../actions';
 import ChatRoomsFeed from '../components/ChatRoomsFeed';
 
 const mapStateToProps = (state: AppState) => ({
@@ -11,6 +15,9 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   onFetchAllChatRooms() {
     dispatch(fetchAllChatRooms());
+  },
+  onRequestDeleteChatRoom(roomId: ChatRoomProps['id']) {
+    dispatch(deleteChatRoom(roomId));
   }
 });
 
