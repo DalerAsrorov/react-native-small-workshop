@@ -93,9 +93,16 @@ export const fetchAllChatRoomMessages = (roomId: ChatRoomProps['id']) => (
   );
 };
 
+export const DELETE_CHATROOM_FROM_QUEUE = 'DELETE_CHATROOM_FROM_QUEUE';
+export const deleteChatRoomFromQueue = (roomId: ChatRoomProps['id']) => ({
+  type: DELETE_CHATROOM_FROM_QUEUE,
+  payload: roomId
+});
+
 export const deleteChatRoom = (roomId: ChatRoomProps['id']) => (
   dispatch: any
 ) => {
+  dispatch(deleteChatRoomFromQueue(roomId));
   return deleteChatRoomApi(roomId).then(() => {
     // TODO maybe set a boolean value on success
     console.log('Deleted successfully', roomId);

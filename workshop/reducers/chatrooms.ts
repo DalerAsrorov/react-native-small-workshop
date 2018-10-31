@@ -5,7 +5,8 @@ import {
   REQUEST_SAVE_NEW_MESSAGE,
   REQUEST_ALL_CHATROOM_MESSAGES,
   RECEIVE_ALL_CHATROOM_MESSAGES,
-  ADD_NEW_CHATROOM_MESSAGE
+  ADD_NEW_CHATROOM_MESSAGE,
+  DELETE_CHATROOM_FROM_QUEUE
 } from '../actions';
 
 const DEFAULT_CHAT_ROOMS_STATE: ChatRoomsState = {
@@ -58,6 +59,15 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
       messages = chatRoomMap[roomId].messages;
 
       chatRoomMap[roomId].messages = [...messages, action.payload.message];
+
+      return {
+        ...state,
+        chatrooms: chatRoomMap
+      };
+    case DELETE_CHATROOM_FROM_QUEUE:
+      chatRoomMap = clone(state.chatrooms);
+
+      delete chatRoomMap[action.payload];
 
       return {
         ...state,
