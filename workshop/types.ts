@@ -21,10 +21,10 @@ interface AppState {
 }
 
 interface ChatRoomProps {
-  id: string;
   name: string;
   owner: User['username'];
   themeColor: string;
+  id?: string;
   messages?: Array<MessagePayload>;
 }
 

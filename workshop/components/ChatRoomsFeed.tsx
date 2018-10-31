@@ -69,7 +69,7 @@ const ChatFeedList = ({
 
     chatroomsList = (
       <FlatList
-        keyExtractor={(chatroom: ChatRoomProps) => chatroom.id}
+        keyExtractor={(chatroom: ChatRoomProps) => chatroom.id || ''}
         data={shownChatRooms}
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
           <SwipeOut
