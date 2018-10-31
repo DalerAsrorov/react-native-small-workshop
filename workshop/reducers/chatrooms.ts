@@ -66,7 +66,6 @@ const chatrooms = (state = DEFAULT_CHAT_ROOMS_STATE, action: any) => {
       };
     case DELETE_CHATROOM_FROM_QUEUE:
       chatRoomMap = clone(state.chatrooms);
-
       delete chatRoomMap[action.payload];
 
       return {
