@@ -4,6 +4,7 @@ import {
   FlatList,
   StyleSheet,
   View,
+  Text,
   NativeSyntheticEvent,
   NativeTouchEvent,
   NativeSegmentedControlIOSChangeEvent
@@ -40,7 +41,11 @@ const ChatFeedList = ({
   chatrooms: ChatRoomMap;
   onChatRoomClick: (chatroom: ChatRoomProps['id']) => void;
 }) => {
-  let chatroomsList = null;
+  let chatroomsList = (
+    <View style={styles.chatRoomEmptyState}>
+      <Text>No chatrooms added yet.</Text>
+    </View>
+  );
 
   if (isShown) {
     const allChatRooms = values(chatrooms);
@@ -152,6 +157,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20
+  },
+  chatRoomEmptyState: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
   },
   container: {
     flex: 1,
