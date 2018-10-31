@@ -115,3 +115,25 @@ export const getChatRoomMessages = functions.https.onRequest(
       });
   }
 );
+
+/**
+ * Delete the chat room collection record with the given ID
+ */
+export const deleteChatRoom = functions.https.onRequest((request, response) => {
+  const {
+    body: { roomId }
+  } = request;
+
+  const chatRoomDeletePromise = db
+    .collection('rooms')
+    .doc(roomId)
+    .delete();
+
+  chatRoomDeletePromise
+    .then(() => {
+      response.status(201).send({ success: true });
+    })
+    .catch(error => {
+      response.status(500).send(error);
+    });
+});

@@ -87,3 +87,19 @@ export const fetchAllChatRoomMessages = (
       )
     );
 };
+
+export const deleteChatRoom = (
+  roomId: ChatRoomProps['id']
+): Promise<{ success: boolean }> => {
+  return fetch(`${REQUEST_BASE}/deleteChatRoom`, {
+    method: 'delete',
+    body: stringifyJson({
+      roomId
+    }),
+    ...REQUEST_DEF_PARAMS
+  })
+    .then(response => response.json())
+    .catch(error =>
+      console.log(`Error removing the chat room with id - ${roomId}:`, error)
+    );
+};
