@@ -39,7 +39,7 @@ const ChatFeedList = ({
   shouldShowMyChatRoomsOnly: boolean;
   currentUser: ChatRoomProps['owner'];
   chatrooms: ChatRoomMap;
-  onChatRoomClick: (chatroom: ChatRoomProps['id']) => void;
+  onChatRoomClick: (chatroom: ChatRoomProps) => void;
 }) => {
   let chatroomsList = (
     <View style={styles.chatRoomEmptyState}>
@@ -59,7 +59,7 @@ const ChatFeedList = ({
         renderItem={({ item: chatroom }: { item: ChatRoomProps }) => (
           <ListItem
             key={chatroom.id}
-            onPress={() => onChatRoomClick(chatroom.id)}
+            onPress={() => onChatRoomClick(chatroom)}
             title={chatroom.name}
             subtitle={`Created by ${chatroom.owner}`}
             leftIcon={
@@ -87,10 +87,10 @@ export default class ChatRoomsFeed extends React.PureComponent<
     segmentIndex: 0
   };
 
-  private handleChatRoomClick = (chatRoomId: ChatRoomProps['id']) => {
+  private handleChatRoomClick = (chatroom: ChatRoomProps) => {
     const { navigate } = this.props.navigation;
 
-    navigate('ChatRoomPage', { chatRoomId });
+    navigate('ChatRoomPage', { chatroom });
   };
 
   private handleNavigateToCreateModal = () => {

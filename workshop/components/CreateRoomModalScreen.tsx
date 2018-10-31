@@ -36,21 +36,17 @@ export default class CreateRoomModalScreen extends React.Component<
     navigation
   }: {
     navigation: NavigationParams;
-  }) => {
-    const params = navigation.state.params || {};
-
-    return {
-      headerTitle: 'Create New Chatroom',
-      headerLeft: (
-        <Icon
-          onPress={() => navigation.navigate('Home')}
-          name="home"
-          size={35}
-          color={PRIMARY_COLOR}
-        />
-      )
-    };
-  };
+  }) => ({
+    headerTitle: 'Create New Chatroom',
+    headerLeft: (
+      <Icon
+        onPress={() => navigation.navigate('Home')}
+        name="home"
+        size={35}
+        color={PRIMARY_COLOR}
+      />
+    )
+  });
 
   private handleRoomNameChange = (text: string) => {
     this.setState({
